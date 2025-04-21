@@ -5,6 +5,7 @@ import OnboardingScreen from './screens/OnboardingScreen';
 import HomeScreen from './screens/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './screens/auth/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,17 +31,20 @@ export default function App() {
   }
 
   return (
+    // <Provider store={store}>
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}
+        initialRouteName={isFirstLaunch ? "Onboarding" : "Login"}
+      >
         {isFirstLaunch ? (
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         ) : null}
+        <Stack.Screen name="Login" component={LoginScreen} />
+        {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
         <Stack.Screen name="Home" component={HomeScreen} />
-        {/* Luôn khai báo Onboarding ở đây để có thể reset đến nó */}
-        {!isFirstLaunch && (
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        )}
+
       </Stack.Navigator>
     </NavigationContainer>
+    // </Provider>
   );
 }
