@@ -7,22 +7,36 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { LinearTransition } from 'react-native-reanimated';
 
-export default function HomeScreen({ navigation }) {
+import SensorCard from './SensorCard';
+
+const sensors = [
+    {
+      id: 'dht20',
+      title: 'DHT20',
+      image: require('../../assets/sensor_dht20.png'),
+      icons: [
+        { library: 'ionicons', name: 'thermometer-outline' },
+        { library: 'material', name: 'water-percent' },
+      ],
+    },
+    // ... more sensors
+];
+
+export default function SensorScreen({ navigation }) {
+
     return (
-        <ScrollView style={styles.container}>
-            {/* Header */}
+        <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.logo}>EasyFarm</Text>
+                <Text style={styles.logo}>Your Sensors</Text>
                 <TouchableOpacity>
                     <Icon name="notifications-outline" size={24} color="#4CAF50" />
                 </TouchableOpacity>
             </View>
 
-            {/* Search bar */}
             <View style={styles.searchContainer}>
                 <Icon name="search-outline" size={20} color="#999" />
                 <TextInput placeholder="Search.." style={styles.searchInput} />
@@ -31,59 +45,22 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            {/* News section */}
-            <View style={styles.newsContainer}>
-                <Text style={styles.sectionTitle}>News</Text>
-                <View style={styles.newsBox}>
-                    <MaterialCommunityIcons name="image-area" size={100} color="#4CAF50" />
+            <ScrollView>
+                <View style={{ padding: 16 }}>
+                    {sensors.map(sensor => (
+                        <SensorCard
+                        key={sensor.id}
+                        imageSource={sensor.image}
+                        title={sensor.title}
+                        icons={sensor.icons}
+                        onPress={() => navigation.navigate('SensorDetail', { id: sensor.id })}
+                        style={{ backgroundColor: '#F5F5F5' }}
+                        iconColor="#4CAF50"
+                        />
+                    ))}
                 </View>
-            </View>
-
-            {/* Categories */}
-            <View style={styles.sectionRow}>
-                <Text style={styles.sectionTitle}>Categories</Text>
-                <TouchableOpacity>
-                    <Text style={styles.viewAll}>View all</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.categoryRow}>
-                <TouchableOpacity style={styles.categoryItem}>
-                    <MaterialCommunityIcons name="chip" size={30} color="#fff" />
-                    <Text style={styles.categoryText}>Sensors</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem}>
-                    <MaterialCommunityIcons name="account-group" size={30} color="#fff" />
-                    <Text style={styles.categoryText}>Forum</Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* Sensors */}
-            <View style={styles.sectionRow}>
-                <Text style={styles.sectionTitle}>Sensors</Text>
-                <TouchableOpacity
-                onPress={async () => {
-                    navigation.navigate('SensorScreen')
-                    // console.log("SensorScreen") // Debugging line to check if the button works
-                }}
-                >
-                    <Text style={styles.viewAll}>View all</Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* <TouchableOpacity
-                onPress={async () => {
-                    await AsyncStorage.removeItem('hasLaunched');
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Onboarding' }],
-                    });
-                }}
-                style={{ marginTop: 20, padding: 10, backgroundColor: '#ccc', borderRadius: 8 }}
-            >
-                <Text>Reset Onboarding</Text>
-            </TouchableOpacity> */}
-        </ScrollView>
+            </ScrollView>
+        </View>
     );
 }
 
