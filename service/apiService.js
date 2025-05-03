@@ -1,8 +1,8 @@
+import instance from '../utils/axiosCuztomize';
 
-
-const postLogin = (email, password) => {
-    return axios.post(`auth/logIn`, {
-        email: email,
+export const loginApi = (email, password) => {
+    return instance.post(`api/v1/auth/login`, {
+        username: email,
         password: password,
     });
 };

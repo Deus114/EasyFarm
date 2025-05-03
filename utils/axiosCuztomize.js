@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '@env';
 
 const instance = axios.create({
-  baseURL: process.env['BACKEND_URL'],
+  baseURL: BACKEND_URL,
 });
 
 // Add a request interceptor

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { loginApi } from '../../service/apiService';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!email || !password) {
             setError('Email và mật khẩu là bắt buộc');
             return;
         }
+        let res = await loginApi(email, password);
 
-        if (email === 'user@gmail.com' && password === '123456') {
+        if (res && res?.data) {
             // Chuyển hướng sang trang Home nếu thông tin đúng
             navigation.navigate('Home');
         } else {
@@ -49,7 +51,7 @@ export default function LoginScreen({ navigation }) {
             {error && <Text style={styles.errorText}>{error}</Text>}
 
             {/* Login button */}
-            <TouchableOpacity style={styles.loginButton} onPress={onSubmit}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
                 <Text style={styles.loginText}>Log in</Text>
             </TouchableOpacity>
 
