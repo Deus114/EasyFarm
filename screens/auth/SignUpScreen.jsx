@@ -1,38 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { loginApi } from '../../service/apiService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export default function LoginScreen({ navigation }) {
+import { registerApi } from '../../service/apiService';
+export default function SignUpScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [fullName, setfullName] = useState('');
+    const [confPassword, setconfPassword] = useState('');
     const [error, setError] = useState('');
-    useEffect(()=>{
-        AsyncStorage.setItem('token',null);
-    },[]);
+
     const onSubmit = async () => {
-        if (!email || !password) {
-            setError('Email và mật khẩu là bắt buộc');
+        if (!email || !password || !fullName || !confPassword) {
+            setError('Mọi trường thông tin phía trên đều bắt buộc!');
             return;
         }
+        if (password != confPassword){
+            setError ('Mật khẩu và mật khẩu nhập lại bạn nhập không khớp!')
+        }
         try {
-            let res = await loginApi(email, password);
-            console.log(res)
+            let res = await registerApi(fullName,email,password)
+            console.log(res.statusCode)
             if (res && res?.statusCode == 201) {
-                console.log(res.data.access_token);
-                AsyncStorage.setItem('token',res.data.access_token);
-                navigation.navigate('Home');
-            } else {
+                console.log('ok')
+                navigation.navigate('Login');
+            }
+            else{
                 setError(res.message);
             }
         } catch (error) {
             throw error;
         }
     };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>EasyFarm</Text>
-            <Text style={styles.subtitle}>Login</Text>
+            <Text style={styles.subtitle}>Register</Text>
 
             {/* Email input */}
             <TextInput
@@ -42,6 +44,17 @@ export default function LoginScreen({ navigation }) {
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
+                autoCapitalize="none"
+            />
+
+            {/* FullName input */}
+            <TextInput
+                style={[styles.input, error && styles.inputError]}
+                placeholder="Full Name"
+                placeholderTextColor="#999"
+                value={fullName}
+                onChangeText={setfullName}
+                keyboardType="default"
                 autoCapitalize="none"
             />
 
@@ -55,19 +68,26 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={setPassword}
             />
 
+            {/* Confirm Password input */}
+            <TextInput
+                style={[styles.input, error && styles.inputError]}
+                placeholder="Confirm Password"
+                placeholderTextColor="#999"
+                secureTextEntry
+                value={confPassword}
+                onChangeText={setconfPassword}
+            />
+
             {error && <Text style={styles.errorText}>{error}</Text>}
 
             {/* Login button */}
-            <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
-                <Text style={styles.loginText}>Log in</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={onSubmit}>
+                <Text style={styles.loginText}>Create Account</Text>
             </TouchableOpacity>
 
             {/* Navigation links */}
-            <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
-                <Text style={styles.signUpText}>Sign Up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=> navigation.navigate('ForgotPassword')}>
-                <Text style={styles.forgotText}>Forget Password?</Text>
+            <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
+                <Text style={styles.signUpText}>Have an account? Log In</Text>
             </TouchableOpacity>
         </View>
     );

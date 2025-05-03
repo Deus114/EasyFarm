@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,10 +10,37 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-
+import { authAccountApi, sensorsApi } from '../service/apiService';
 export default function HomeScreen({ navigation }) {
+    const [sensorList,setSensorList] = useState([]);
+    useEffect(()=>{
+        const fetchUserID = async() => {
+            try {
+                let accountRes = await authAccountApi();
+                console.log(accountRes)
+                if (accountRes && accountRes?.statusCode == 200) {
+                    let userId = accountRes.data.user.id;
+                    try {
+                        let sensorRes = await sensorsApi(userId);
+                        console.log(sensorRes)
+                        if (sensorRes && sensorRes?.statusCode == 200) {
+                            setSensorList(sensorRes.data);
+                        }
+                    } catch (error) {
+                        throw error;
+                    }
+                }
+            } catch (error) {
+                throw error;
+            }
+        }
+        fetchUserID();
+    },[]);
     return (
-        <ScrollView style={styles.container}>
+        <>
+        {/* Background Circle */}
+        <View className='fixed rounded-full w-[150%] aspect-square bg-[#CAEBBE] -translate-x-1/2 translate-y-1/4 -z-10'></View>
+        <ScrollView className='flex px-4'>
             {/* Header */}
             <View style={styles.header}>
                 <Text style={styles.logo}>EasyFarm</Text>
@@ -21,64 +48,78 @@ export default function HomeScreen({ navigation }) {
                     <Icon name="notifications-outline" size={24} color="#4CAF50" />
                 </TouchableOpacity>
             </View>
-
-            {/* Search bar */}
-            <View style={styles.searchContainer}>
-                <Icon name="search-outline" size={20} color="#999" />
-                <TextInput placeholder="Search.." style={styles.searchInput} />
-                <TouchableOpacity>
-                    <Icon name="options-outline" size={20} color="#4CAF50" />
-                </TouchableOpacity>
+            {/* Categories */}
+            <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Categories</Text>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className='p-[10px]'>
+                <View className='h-[48px] w-[189px] rounded-full place-content-center flex flex-row bg-[#DFF1E6]'>
+                    <View className='h-[48px] w-[48px] rounded-full bg-gray-200 flex-none'></View>
+                    <View className='ml-2 flex-grow h-[48px] text-center place-content-center'>
+                        <Text className='font-semibold inline text-[22px]'>Overall</Text>
+                    </View>
+                </View>
+            </ScrollView>
+            {/* Summary */}
+            <View className="flex flex-row justify-between w-full">
+                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Summary</Text>
+                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
             </View>
+            <View className='sm:flex sm:flex-row sm:justify-between m-2'>
+                <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
+                    <Text className='w-[40%] text-[16px]'>
+                        Overall Temperature
+                    </Text>
+                    <View className='w-[20%] bg-gray-500 aspect-square'>
 
-            {/* News section */}
-            <View style={styles.newsContainer}>
-                <Text style={styles.sectionTitle}>News</Text>
-                <View style={styles.newsBox}>
-                    <MaterialCommunityIcons name="image-area" size={100} color="#4CAF50" />
+                    </View>
+                    <Text className="text-[40px] w-[40%]">
+                        25°C
+                    </Text>
+                </View>
+                <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
+                    <Text className='w-[40%] text-[16px]'>
+                        Overall Temperature
+                    </Text>
+                    <View className='w-[20%] bg-gray-500 aspect-square'>
+
+                    </View>
+                    <Text className="text-[40px] w-[40%]">
+                        25°C
+                    </Text>
                 </View>
             </View>
-
-            {/* Categories */}
-            <View style={styles.sectionRow}>
-                <Text style={styles.sectionTitle}>Categories</Text>
-                <TouchableOpacity>
-                    <Text style={styles.viewAll}>View all</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.categoryRow}>
-                <TouchableOpacity style={styles.categoryItem}>
-                    <MaterialCommunityIcons name="chip" size={30} color="#fff" />
-                    <Text style={styles.categoryText}>Sensors</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryItem}>
-                    <MaterialCommunityIcons name="account-group" size={30} color="#fff" />
-                    <Text style={styles.categoryText}>Forum</Text>
-                </TouchableOpacity>
-            </View>
-
             {/* Sensors */}
-            <View style={styles.sectionRow}>
-                <Text style={styles.sectionTitle}>Sensors</Text>
-                <TouchableOpacity>
-                    <Text style={styles.viewAll}>View all</Text>
-                </TouchableOpacity>
+            <View className="flex flex-row justify-between w-full">
+                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Sensors</Text>
+                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
             </View>
+            {/* Sensor list */}
+            <View className='flex flex-row flex-wrap justify-between'>
+                {/* Sensor Items */}
+                {sensorList.map((data,index)=>(
+                <View className='w-[48%] md:w-[30%] aspect-[4/5] border mb-2 bg-white'>
+                    <View className='w-full md:w-30% aspect-[16/13] bg-gray-200'>
 
-            <TouchableOpacity
-                onPress={async () => {
-                    await AsyncStorage.removeItem('hasLaunched');
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Onboarding' }],
-                    });
-                }}
-                style={{ marginTop: 20, padding: 10, backgroundColor: '#ccc', borderRadius: 8 }}
-            >
-                <Text>Reset Onboarding</Text>
-            </TouchableOpacity>
+                    </View>
+                    <View className="flex flex-row justify-between w-full p-2">
+                        <Text className='text-[#505050] text-[22px] font-semibold place-content-center'>{data.name}</Text>
+                        <Text className='text-gray-500 text-[22px] font-semibold underline-offset-1 place-content-center'>25°C</Text>
+                    </View>
+                </View>
+                ))}
+            </View>
+            {/* Schedule */}
+            <View className="flex flex-row justify-between w-full">
+                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Schedule</Text>
+                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+            </View>
+            <View className='w-full flex flex-row justify-between flex-wrap'>
+                <View className='w-full sm:w-[48%] h-[80px] flex flex-row justify-center rounded-xl bg-[#DFF1E6] mb-2'>
+                    <Text className='text-[25px] w-[30%] rounded-l-full'>Today</Text>
+                    <Text className='text-[15px] w-[60%] rounded-r-full'>Water the Coffee Garden At 3PM Water the Coffee </Text>
+                </View>
+            </View>
         </ScrollView>
+        </>
     );
 }
 
