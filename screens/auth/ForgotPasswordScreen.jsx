@@ -3,31 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Keyb
 import { loginApi } from '../../service/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LoginScreen({ navigation }) {
+export default function ForgotPasswordScreen({ navigation }) {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [phoneNum, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
-    useEffect(() => {
-        AsyncStorage.setItem('token', null);
-    }, []);
     const onSubmit = async () => {
-        if (!email || !password) {
-            setError('Email và mật khẩu là bắt buộc');
-            return;
-        }
-        try {
-            let res = await loginApi(email, password);
-            console.log(res)
-            if (res && res?.statusCode == 201) {
-                console.log(res.data.access_token);
-                AsyncStorage.setItem('token', res.data.access_token);
-                navigation.navigate('Home');
-            } else {
-                setError(res.message);
-            }
-        } catch (error) {
-            throw error;
-        }
+        //Submit để lấy otp
     };
     return (
         <SafeAreaView className="h-full bg-white">
@@ -35,7 +16,7 @@ export default function LoginScreen({ navigation }) {
                 <ScrollView>
                     <View className="w-full mt-[40%] h-full px-6 my-6">
                         <Text style={styles.title}>EasyFarm</Text>
-                        <Text style={styles.subtitle}>Login</Text>
+                        <Text style={styles.subtitle}>Forgot Account</Text>
 
                         {/* Email input */}
                         <TextInput
@@ -51,32 +32,28 @@ export default function LoginScreen({ navigation }) {
                         {/* Password input */}
                         <TextInput
                             style={[styles.input, error && styles.inputError]}
-                            placeholder="Password"
+                            placeholder="Phone Number"
                             placeholderTextColor="#999"
                             secureTextEntry
-                            value={password}
-                            onChangeText={setPassword}
+                            value={phoneNum}
+                            onChangeText={setPhoneNumber}
                         />
 
                         {error && <Text style={styles.errorText}>{error}</Text>}
 
                         {/* Login button */}
                         <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
-                            <Text style={styles.loginText}>Log in</Text>
+                            <Text style={styles.loginText}>Get OTP</Text>
                         </TouchableOpacity>
 
                         {/* Navigation links */}
-                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                            <Text style={styles.signUpText}>Sign Up</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                            <Text style={styles.forgotText}>Forget Password?</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                            <Text style={styles.signUpText}>Already have an account? Log in</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
-
     );
 }
 
