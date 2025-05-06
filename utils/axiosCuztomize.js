@@ -1,20 +1,14 @@
 import axios from 'axios';
-// import { BACKEND_URL } from '@env';
+import { BACKEND_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const instance = axios.create({
-  baseURL: 'http://3.25.199.238:8000/',
-  timeout: 10000,
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
+  baseURL: BACKEND_URL,
 });
 
 // Add a request interceptor
 instance.interceptors.request.use(
   async function (config) {
-    console.log('request succ')
     const token = await AsyncStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -22,7 +16,6 @@ instance.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log('request err')
     return Promise.reject(error);
   },
 );

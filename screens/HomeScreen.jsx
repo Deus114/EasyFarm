@@ -12,9 +12,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { authAccountApi, sensorsApi } from '../service/apiService';
 export default function HomeScreen({ navigation }) {
-    const [sensorList,setSensorList] = useState([]);
-    useEffect(()=>{
-        const fetchUserID = async() => {
+    const [sensorList, setSensorList] = useState([]);
+    useEffect(() => {
+        const fetchUserID = async () => {
             try {
                 let accountRes = await authAccountApi();
                 console.log(accountRes)
@@ -35,91 +35,110 @@ export default function HomeScreen({ navigation }) {
             }
         }
         fetchUserID();
-    },[]);
+    }, []);
     return (
-        <>
-        {/* Background Circle */}
-        <View className='fixed rounded-full w-[150%] aspect-square bg-[#CAEBBE] -translate-x-1/2 translate-y-1/4 -z-10'></View>
-        <ScrollView className='flex px-4'>
-            {/* Header */}
-            <View style={styles.header}>
-                <Text style={styles.logo}>EasyFarm</Text>
-                <TouchableOpacity>
-                    <Icon name="notifications-outline" size={24} color="#4CAF50" />
-                </TouchableOpacity>
+        <View style={{ flex: 1 }}>
+            {/* Background Circle */}
+            <View
+                style={[
+                    StyleSheet.absoluteFillObject,
+                    {
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: -1,
+                    },
+                ]}
+            >
+                <View
+                    style={{
+                        width: '150%',
+                        aspectRatio: 1,
+                        backgroundColor: '#CAEBBE',
+                        borderRadius: 9999,
+                        transform: [{ translateY: 100 }],
+                    }}
+                />
             </View>
-            {/* Categories */}
-            <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Categories</Text>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className='p-[10px]'>
-                <View className='h-[48px] w-[189px] rounded-full place-content-center flex flex-row bg-[#DFF1E6]'>
-                    <View className='h-[48px] w-[48px] rounded-full bg-gray-200 flex-none'></View>
-                    <View className='ml-2 flex-grow h-[48px] text-center place-content-center'>
-                        <Text className='font-semibold inline text-[22px]'>Overall</Text>
+            <ScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
+                {/* Header */}
+                <View style={styles.header}>
+                    <Text style={styles.logo}>EasyFarm</Text>
+                    <TouchableOpacity>
+                        <Icon name="notifications-outline" size={24} color="#4CAF50" />
+                    </TouchableOpacity>
+                </View>
+                {/* Categories */}
+                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Categories</Text>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} className='p-[10px]'>
+                    <View className='h-[48px] w-[189px] rounded-full place-content-center flex flex-row bg-[#DFF1E6]'>
+                        <View className='h-[48px] w-[48px] rounded-full bg-gray-200 flex-none'></View>
+                        <View className='ml-2 flex-grow h-[48px] text-center place-content-center'>
+                            <Text className='font-semibold inline text-[22px]'>Overall</Text>
+                        </View>
+                    </View>
+                </ScrollView>
+                {/* Summary */}
+                <View className="flex flex-row justify-between w-full">
+                    <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Summary</Text>
+                    <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                </View>
+                <View className='sm:flex sm:flex-row sm:justify-between m-2'>
+                    <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
+                        <Text className='w-[40%] text-[16px]'>
+                            Overall Temperature
+                        </Text>
+                        <View className='w-[20%] bg-gray-500 aspect-square'>
+
+                        </View>
+                        <Text className="text-[40px] w-[40%]">
+                            25°C
+                        </Text>
+                    </View>
+                    <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
+                        <Text className='w-[40%] text-[16px]'>
+                            Overall Temperature
+                        </Text>
+                        <View className='w-[20%] bg-gray-500 aspect-square'>
+
+                        </View>
+                        <Text className="text-[40px] w-[40%]">
+                            25°C
+                        </Text>
+                    </View>
+                </View>
+                {/* Sensors */}
+                <View className="flex flex-row justify-between w-full">
+                    <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Sensors</Text>
+                    <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                </View>
+                {/* Sensor list */}
+                <View className='flex flex-row flex-wrap justify-between'>
+                    {/* Sensor Items */}
+                    {sensorList.map((data, index) => (
+                        <View className='w-[48%] md:w-[30%] aspect-[4/5] border mb-2 bg-white'>
+                            <View className='w-full md:w-30% aspect-[16/13] bg-gray-200'>
+
+                            </View>
+                            <View className="flex flex-row justify-between w-full p-2">
+                                <Text className='text-[#505050] text-[22px] font-semibold place-content-center'>{data.name}</Text>
+                                <Text className='text-gray-500 text-[22px] font-semibold underline-offset-1 place-content-center'>25°C</Text>
+                            </View>
+                        </View>
+                    ))}
+                </View>
+                {/* Schedule */}
+                <View className="flex flex-row justify-between w-full">
+                    <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Schedule</Text>
+                    <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                </View>
+                <View className='w-full flex flex-row justify-between flex-wrap'>
+                    <View className='w-full sm:w-[48%] h-[80px] flex flex-row justify-center rounded-xl bg-[#DFF1E6] mb-2'>
+                        <Text className='text-[25px] w-[30%] rounded-l-full'>Today</Text>
+                        <Text className='text-[15px] w-[60%] rounded-r-full'>Water the Coffee Garden At 3PM Water the Coffee </Text>
                     </View>
                 </View>
             </ScrollView>
-            {/* Summary */}
-            <View className="flex flex-row justify-between w-full">
-                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Summary</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
-            </View>
-            <View className='sm:flex sm:flex-row sm:justify-between m-2'>
-                <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
-                    <Text className='w-[40%] text-[16px]'>
-                        Overall Temperature
-                    </Text>
-                    <View className='w-[20%] bg-gray-500 aspect-square'>
-
-                    </View>
-                    <Text className="text-[40px] w-[40%]">
-                        25°C
-                    </Text>
-                </View>
-                <View className="h-[109px] w-full sm:w-[40%] px-2 bg-gray-200 flex flex-row text-center mb-3">
-                    <Text className='w-[40%] text-[16px]'>
-                        Overall Temperature
-                    </Text>
-                    <View className='w-[20%] bg-gray-500 aspect-square'>
-
-                    </View>
-                    <Text className="text-[40px] w-[40%]">
-                        25°C
-                    </Text>
-                </View>
-            </View>
-            {/* Sensors */}
-            <View className="flex flex-row justify-between w-full">
-                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Sensors</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
-            </View>
-            {/* Sensor list */}
-            <View className='flex flex-row flex-wrap justify-between'>
-                {/* Sensor Items */}
-                {sensorList.map((data,index)=>(
-                <View className='w-[48%] md:w-[30%] aspect-[4/5] border mb-2 bg-white'>
-                    <View className='w-full md:w-30% aspect-[16/13] bg-gray-200'>
-
-                    </View>
-                    <View className="flex flex-row justify-between w-full p-2">
-                        <Text className='text-[#505050] text-[22px] font-semibold place-content-center'>{data.name}</Text>
-                        <Text className='text-gray-500 text-[22px] font-semibold underline-offset-1 place-content-center'>25°C</Text>
-                    </View>
-                </View>
-                ))}
-            </View>
-            {/* Schedule */}
-            <View className="flex flex-row justify-between w-full">
-                <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Schedule</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
-            </View>
-            <View className='w-full flex flex-row justify-between flex-wrap'>
-                <View className='w-full sm:w-[48%] h-[80px] flex flex-row justify-center rounded-xl bg-[#DFF1E6] mb-2'>
-                    <Text className='text-[25px] w-[30%] rounded-l-full'>Today</Text>
-                    <Text className='text-[15px] w-[60%] rounded-r-full'>Water the Coffee Garden At 3PM Water the Coffee </Text>
-                </View>
-            </View>
-        </ScrollView>
-        </>
+        </View>
     );
 }
 
