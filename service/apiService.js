@@ -1,18 +1,19 @@
-import instance from '../utils/axiosCuztomize';
+import axios from '../utils/axiosCuztomize';
 
+// Auth module
 export const loginApi = (email, password) => {
-    return instance.post(`api/v1/auth/login`, {
+    return axios.post(`api/v1/auth/login`, {
         username: email,
         password: password,
     });
 };
 
 export const authAccountApi = () => {
-    return instance.get('api/v1/auth/account');
+    return axios.get('api/v1/auth/account');
 }
 
 export const registerApi = (name, email, password) => {
-    return instance.post(`api/v1/auth/register`, {
+    return axios.post(`api/v1/auth/register`, {
         name: name,
         email: email,
         password: password,
@@ -20,6 +21,25 @@ export const registerApi = (name, email, password) => {
     });
 }
 
-export const sensorsApi = (userID) =>{
-    return instance.get(`api/v1/sensors/${userID}`);
+export const forgotPassApi = (email) => {
+    return axios.post(`api/v1/auth/forgot-password`, {
+        email
+    });
+}
+
+export const verifyOtpApi = (email, otp) => {
+    return axios.post(`api/v1/auth/verify-otp`, {
+        email, otp
+    });
+}
+
+export const resetPassApi = (email, newPassword) => {
+    return axios.post(`api/v1/auth/reset-password`, {
+        email, newPassword
+    });
+}
+
+// Sensor module
+export const sensorsApi = (userID) => {
+    return axios.get(`api/v1/sensors/${userID}`);
 }

@@ -9,6 +9,8 @@ import LoginScreen from './screens/auth/LoginScreen';
 import "./global.css"
 import SignUpScreen from './screens/auth/SignUpScreen';
 import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
+import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
+import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -44,8 +46,9 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
