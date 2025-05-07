@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { loginApi } from '../../service/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingOverlay from '../../components/loading';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         AsyncStorage.setItem('token', null);
     }, []);
@@ -16,7 +19,9 @@ export default function LoginScreen({ navigation }) {
             return;
         }
         try {
+            setLoading(true);
             let res = await loginApi(email, password);
+            setLoading(false);
             console.log(res)
             if (res && res?.statusCode == 201) {
                 console.log(res.data.access_token);
@@ -31,6 +36,7 @@ export default function LoginScreen({ navigation }) {
     };
     return (
         <SafeAreaView className="h-full bg-white">
+            <LoadingOverlay visible={loading} />
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <ScrollView>
                     <View className="w-full mt-[40%] h-full px-6 my-6">
