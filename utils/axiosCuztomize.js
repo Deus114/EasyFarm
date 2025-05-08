@@ -3,7 +3,7 @@ import { BACKEND_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const instance = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL: 'http://3.25.199.238:8000/',
 });
 
 // Add a request interceptor

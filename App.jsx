@@ -13,7 +13,14 @@ import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
 import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://b0e5b3fc28a5c27ba8affce8f64f3a24@o4509285341921280.ingest.us.sentry.io/4509285526929408',
+  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+})
+
+function App() {
   const [loading, setLoading] = useState(true);
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
 
@@ -54,3 +61,5 @@ export default function App() {
     // </Provider>
   );
 }
+
+export default Sentry.wrap(App);
