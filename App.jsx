@@ -6,9 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import "./global.css"
 
 import LoginScreen from './screens/auth/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import OnboardingScreen from './screens/OnboardingScreen';
-import SensorScreen from './screens/sensors/SensorScreen';
+import "./global.css"
+import SignUpScreen from './screens/auth/SignUpScreen';
+import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
+import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
+import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -41,10 +43,12 @@ export default function App() {
         {isFirstLaunch ? (
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         ) : null}
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="SensorScreen" component={SensorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
