@@ -6,11 +6,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import "./global.css"
 
 import LoginScreen from './screens/auth/LoginScreen';
-import "./global.css"
 import SignUpScreen from './screens/auth/SignUpScreen';
 import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
 import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
 import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
+import OnboardingScreen from './screens/OnboardingScreen';
+import HomeScreen from './screens/HomeScreen';
+import SensorsScreen from './screens/sensors/SensorScreen';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -38,7 +41,7 @@ export default function App() {
     // <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}
-        initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
+        initialRouteName={isFirstLaunch ? "Onboarding" : "Sensors"}
       >
         {isFirstLaunch ? (
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -49,6 +52,7 @@ export default function App() {
         <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Sensors" component={SensorsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>

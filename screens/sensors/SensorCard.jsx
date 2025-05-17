@@ -1,87 +1,75 @@
-// components/SensorCard.js
 import React from 'react';
-import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
-export default function SensorCard({
-  onPress,
-  imageSource,
-  title,
-  icons = [],          // array of { library: 'ionicons'|'material', name: string }
-  style,
-  imageStyle,
-  titleStyle,
-  iconSize = 20,
-  iconColor = '#333',
-}) {
-  const renderIcon = ({ library, name }, i) => {
-    if (library === 'material')
-      return (
-        <MaterialCommunityIcons
-          key={i}
-          name={name}
-          size={iconSize}
-          color={iconColor}
-          style={styles.icon}
-        />
-      );
-    return (
-      <Icon
-        key={i}
-        name={name}
-        size={iconSize}
-        color={iconColor}
-        style={styles.icon}
-      />
-    );
+const SensorCard = ({ sensor, onPress }) => {
+  const getTypeIcons = () => {
+    const icons = {
+      temperature: 'thermometer-outline',
+      humidity: 'water-outline',
+      light: 'sunny-outline',
+      gps: 'location-outline',
+    };
+    return sensor.types.map((type, index) => (
+      <Icon key={index} name={icons[type]} size={20} color="#4CAF50" style={styles.typeIcon} />
+    ));
   };
 
   return (
-    <TouchableOpacity
-      style={[styles.card, style]}
-      onPress={onPress}
-      activeOpacity={0.7}
-    >
-      {imageSource && (
-        <Image source={imageSource} style={[styles.image, imageStyle]} />
-      )}
-      <Text style={[styles.title, titleStyle]} numberOfLines={1}>
-        {title}
-      </Text>
-      <View style={styles.iconRow}>
-        {icons.map(renderIcon)}
+    <TouchableOpacity onPress={() => onPress(sensor)}>
+      <View style={styles.sensorCard}>
+        <Image source={{ uri: sensor.image }} style={styles.sensorImage} />
+        <View style={styles.sensorInfo}>
+          <Text style={styles.sensorName}>{sensor.name}</Text>
+          <View style={styles.sensorTypes}>{getTypeIcons()}</View>
+        </View>
+        <View
+          style={[
+            styles.statusDot,
+            { backgroundColor: sensor.status === 'active' ? '#4CAF50' : '#FF0000' },
+          ]}
+        />
       </View>
-    </TouchableOpacity>
+    </TouchableOpacity> 
   );
-}
+};
 
 const styles = StyleSheet.create({
-  card: {
+  sensorCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EEE',
-    borderRadius: 12,
-    padding: 12,
-    marginVertical: 8,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
   },
-  image: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 12,
+  sensorImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    marginRight: 10,
   },
-  title: {
+  sensorInfo: {
     flex: 1,
+  },
+  sensorName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#222',
+    color: '#333',
   },
-  iconRow: {
+  sensorTypes: {
     flexDirection: 'row',
-    marginLeft: 12,
+    marginTop: 4,
   },
-  icon: {
-    marginHorizontal: 4,
+  typeIcon: {
+    marginRight: 8,
+  },
+  statusDot: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginLeft: 10,
   },
 });
+
+export default SensorCard;
