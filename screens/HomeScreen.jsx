@@ -109,7 +109,9 @@ export default function HomeScreen({ navigation }) {
                 {/* Sensors */}
                 <View className="flex flex-row justify-between w-full">
                     <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Sensors</Text>
-                    <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Sensors')}>
+                        <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                    </TouchableOpacity>
                 </View>
                 {/* Sensor list */}
                 <View className='flex flex-row flex-wrap justify-between'>

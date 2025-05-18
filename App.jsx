@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OnboardingScreen from './screens/OnboardingScreen';
 import HomeScreen from './screens/HomeScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/auth/LoginScreen';
-import "./global.css"
 import SignUpScreen from './screens/auth/SignUpScreen';
 import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
 import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
 import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
+import SensorsScreen from './screens/sensors/SensorScreen';
+import "./global.css"
+
 const Stack = createNativeStackNavigator();
 
 import * as Sentry from '@sentry/react-native';
@@ -56,6 +58,7 @@ function App() {
         <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Sensors" component={SensorsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
