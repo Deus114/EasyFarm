@@ -23,3 +23,8 @@ export const registerApi = (name, email, password) => {
 export const sensorsApi = (userID) =>{
     return instance.get(`api/v1/sensors/${userID}`);
 }
+
+export const schedulesApi = (userID) => {
+    console.log('called')
+    return instance.get(`api/v1/schedules/${userID}`);
+}
