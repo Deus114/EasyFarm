@@ -14,7 +14,6 @@ import ScheduleList from './ScheduleList';
 import Background from '../Background';
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
-    AsyncStorage.setItem('token',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0b2tlbiBsb2dpbiIsImlzcyI6ImZyb20gc2VydmVyIiwiaWQiOjEsIm5hbWUiOiJ1c2VyIiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzQ3NzQ1NjgyLCJleHAiOjE3NDc4MzIwODJ9.wNNVEnAiET3i_awQ12tvQY2PUKlPOwVJHjwcwtD9DWo")
     useEffect(()=>{
         const fetchUserID = async() => {
             try {
