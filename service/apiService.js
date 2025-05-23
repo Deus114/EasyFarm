@@ -28,3 +28,29 @@ export const schedulesApi = (userID) => {
     console.log('called')
     return instance.get(`api/v1/schedules/${userID}`);
 }
+
+//Unfinished
+export const schedulesIDApi = (ID) => {
+    console.log('called')
+    return instance.get(`api/v1/schedules/${ID}/detail`);
+}
+
+export const notificationsAPI = () => {
+    return instance.get(`api/v1/notifications`);
+}
+
+export const postScheduleApi = (data) => {
+    return instance.post(`api/v1/schedules`,data);
+}
+
+export const pauseScheduleApi = (ID) => {
+    return instance.patch(`api/v1/schedules/${ID}/pause`);
+}
+
+export const resumeScheduleApi = (ID) => {
+    return instance.patch(`api/v1/schedules/${ID}/resume`);
+}
+
+export const deleteScheduleApi = (ID) => {
+    return instance.delete(`api/v1/schedules/${ID}`);
+}

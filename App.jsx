@@ -11,6 +11,8 @@ import SignUpScreen from './screens/auth/SignUpScreen';
 import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
 import ScheduleScreen from './screens/ScheduleScreen/ScheduleScreen';
 import AddScheduleScreen from './screens/AddScheduleScreen/AddScheduleScreen';
+import ScheduleDetails from './screens/AddScheduleScreen/ScheduleDetails';
+import SensorsScreen from './screens/SensorScreen/SensorScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -38,7 +40,7 @@ export default function App() {
     // <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}
-        initialRouteName={isFirstLaunch ? "Onboarding" : "Home"}
+        initialRouteName={isFirstLaunch ? "Onboarding" : "Login"}
       >
         {isFirstLaunch ? (
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -48,7 +50,9 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Schedule" component={ScheduleScreen} />
+        <Stack.Screen name="ScheduleDetails" component={ScheduleDetails}/>
         <Stack.Screen name="AddSchedule" component={AddScheduleScreen} />
+        <Stack.Screen name="Sensor" component={SensorsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>

@@ -3,6 +3,7 @@ import {
     View,
     Text,
     ScrollView,
+    TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authAccountApi, sensorsApi } from '../../service/apiService';
@@ -14,7 +15,6 @@ import ScheduleList from './ScheduleList';
 import Background from '../Background';
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
-    AsyncStorage.setItem('token',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0b2tlbiBsb2dpbiIsImlzcyI6ImZyb20gc2VydmVyIiwiaWQiOjEsIm5hbWUiOiJ1c2VyIiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzQ3NzQ1NjgyLCJleHAiOjE3NDc4MzIwODJ9.wNNVEnAiET3i_awQ12tvQY2PUKlPOwVJHjwcwtD9DWo")
     useEffect(()=>{
         const fetchUserID = async() => {
             try {
@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
                 console.log(accountRes)
                 if (accountRes && accountRes?.statusCode == 200) {
                     setUserId(accountRes.data.user.id);
-                    AsyncStorage.setItem('userID',userId);
+                    await AsyncStorage.setItem('userID',accountRes.data.user.id);
                 }
             } catch (error) {
                 throw error;
@@ -31,35 +31,37 @@ export default function HomeScreen({ navigation }) {
         fetchUserID();
     },[]);
     return (
-        <ScrollView className='w-full'>
+        <View className='w-full h-full'>
         {/* Background Circle */}
         <Background/>
-        <EFHeader name={"EasyFarm"}/>
+        <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation}/>
         {/* <View className='fixed rounded-full w-[150%] aspect-square bg-[#CAEBBE] -translate-x-1/2 translate-y-1/4 -z-10'></View> */}
-        <ScrollView className='flex px-4'>
-            <View className='h-[80px]'/>
+        <ScrollView className='flex px-4 mt-[80px]'>
             {/* Categories */}
             <Categories/>
             {/* Summary */}
             <View className="flex flex-row justify-between w-full">
                 <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Summary</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
             </View>
             <Summary/>
             {/* Sensors */}
             <View className="flex flex-row justify-between w-full">
                 <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Sensors</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('Sensor')}>
+                    <Text  className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                </TouchableOpacity>
             </View>
             {/* Sensor list */}
-            {userId && <SensorsList userId = {userId}/>}
+            {userId && <SensorsList userId = {userId} navigation={navigation} />}
             {/* Schedule */}
             <View className="flex flex-row justify-between w-full">
                 <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Schedule</Text>
-                <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('Schedule')}>
+                    <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
+                </TouchableOpacity>
             </View>
-            {userId && <ScheduleList userId = {userId}/>}
+            {userId && <ScheduleList userId = {userId} navigation={navigation} maxItems = {4} />}
         </ScrollView>
-        </ScrollView>
+        </View>
     );
 }

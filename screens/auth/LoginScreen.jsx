@@ -9,6 +9,8 @@ export default function LoginScreen({ navigation }) {
     const [error, setError] = useState('');
     useEffect(()=>{
         AsyncStorage.setItem('token',null);
+        setEmail('user@gmail.com');
+        setPassword('123456');
     },[]);
     const onSubmit = async () => {
         if (!email || !password) {
@@ -33,7 +35,6 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.title}>EasyFarm</Text>
             <Text style={styles.subtitle}>Login</Text>
-
             {/* Email input */}
             <TextInput
                 style={[styles.input, error && styles.inputError]}

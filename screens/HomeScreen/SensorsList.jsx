@@ -4,7 +4,7 @@ import {
     Text
 } from 'react-native';
 import { sensorsApi } from '../../service/apiService';
-const SensorsList = ({userId}) => {
+const SensorsList = ({userId,navigation}) => {
     const [sensorList,setSensorList] = useState([]);
     useEffect(()=>{
         const fetchSensorID = async() => {
