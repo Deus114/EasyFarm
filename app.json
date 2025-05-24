@@ -23,6 +23,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "abc-mobile",
+          "project": "easy-farm",
+          "url": "https://sentry.io/"
+        }
+      ]
+    ]
   }
 }

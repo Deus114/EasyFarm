@@ -1,53 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { loginApi } from '../../service/apiService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { forgotPassApi } from '../../service/apiService';
+import LoadingOverlay from '../../components/loading';
 
 export default function ForgotPasswordScreen({ navigation }) {
     const [email, setEmail] = useState('');
-    const [phoneNum, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setEmail("")
+        setError('');
+    }, []);
+
     const onSubmit = async () => {
         //Submit để lấy otp
+        setLoading(true);
+        let res = await forgotPassApi(email);
+        setLoading(false);
+        if (res && res?.data) {
+            navigation.navigate('VerifyOtp', {
+                email: email,
+            });
+            setError("");
+        } else setError(res?.message);
     };
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>EasyFarm</Text>
-            <Text style={styles.subtitle}>Forgot Account</Text>
+        <SafeAreaView className="h-full bg-white">
+            <LoadingOverlay visible={loading} />
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+                <ScrollView>
+                    <View className="w-full mt-[40%] h-full px-6 my-6">
+                        <Text style={styles.title}>EasyFarm</Text>
+                        <Text style={styles.subtitle}>Forgot Account</Text>
 
-            {/* Email input */}
-            <TextInput
-                style={[styles.input, error && styles.inputError]}
-                placeholder="Email"
-                placeholderTextColor="#999"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
+                        {/* Email input */}
+                        <TextInput
+                            style={[styles.input, error && styles.inputError]}
+                            placeholder="Email"
+                            placeholderTextColor="#999"
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                        />
 
-            {/* Password input */}
-            <TextInput
-                style={[styles.input, error && styles.inputError]}
-                placeholder="Phone Number"
-                placeholderTextColor="#999"
-                secureTextEntry
-                value={phoneNum}
-                onChangeText={setPhoneNumber}
-            />
+                        {error && <Text style={styles.errorText}>{error}</Text>}
 
-            {error && <Text style={styles.errorText}>{error}</Text>}
+                        {/* Login button */}
+                        <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
+                            <Text style={styles.loginText}>Get OTP</Text>
+                        </TouchableOpacity>
 
-            {/* Login button */}
-            <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
-                <Text style={styles.loginText}>Get OTP</Text>
-            </TouchableOpacity>
-
-            {/* Navigation links */}
-            <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
-                <Text style={styles.signUpText}>Already have an account? Log in</Text>
-            </TouchableOpacity>
-        </View>
+                        {/* Navigation links */}
+                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                            <Text style={styles.signUpText}>Already have an account? Log in</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         paddingBottom: 8,
-        marginBottom: 8,
+        marginBottom: 15,
         color: '#333',
         fontSize: 16,
     },

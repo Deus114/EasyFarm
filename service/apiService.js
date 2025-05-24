@@ -13,7 +13,8 @@ export const authAccountApi = () => {
 }
 
 export const registerApi = (name, email, password) => {
-    return axios.post(`api/v1/auth/register`, {
+    console.log('register')
+    return instance.post(`api/v1/auth/register`, {
         name: name,
         email: email,
         password: password,
@@ -21,7 +22,26 @@ export const registerApi = (name, email, password) => {
     });
 }
 
-export const sensorsApi = (userID) =>{
+export const forgotPassApi = (email) => {
+    return instance.post(`api/v1/auth/forgot-password`, {
+        email
+    });
+}
+
+export const verifyOtpApi = (email, otp) => {
+    return instance.post(`api/v1/auth/verify-otp`, {
+        email, otp
+    });
+}
+
+export const resetPassApi = (email, newPassword) => {
+    return instance.post(`api/v1/auth/reset-password`, {
+        email, newPassword
+    });
+}
+
+// Sensor module
+export const sensorsApi = (userID) => {
     return instance.get(`api/v1/sensors/${userID}`);
 }
 
@@ -54,4 +74,16 @@ export const resumeScheduleApi = (ID) => {
 
 export const deleteScheduleApi = (ID) => {
     return instance.delete(`api/v1/schedules/${ID}`);
+}
+
+export const addSensorApi = (name, serialNumber, img, type, description, userID) => {
+    // console.log("Post", name, serialNumber, img, type, description, userID);
+    return instance.post(`api/v1/sensors`, {
+        name: name, 
+        serialNumber: serialNumber, 
+        img: img, 
+        type: type, 
+        description: description, 
+        userId: userID
+    });
 }

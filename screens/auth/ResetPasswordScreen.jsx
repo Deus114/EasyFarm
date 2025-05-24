@@ -1,39 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import { loginApi } from '../../service/apiService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform, Modal } from 'react-native';
+import { resetPassApi } from '../../service/apiService';
 import LoadingOverlay from '../../components/loading';
 
-export default function LoginScreen({ navigation }) {
+export default function ResetPasswordScreen({ navigation, route }) {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const [error, setError] = useState('');
-    useEffect(()=>{
-        AsyncStorage.setItem('token',null);
-        setEmail('user@gmail.com');
-        setPassword('123456');
-    },[]);
+    const [loading, setLoading] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+        setNewPassword('');
+        setEmail(route.params.email);
+        setError('');
+    }, []);
+
     const onSubmit = async () => {
-        if (!email || !password) {
-            setError('Email và mật khẩu là bắt buộc');
-            return;
-        }
-        try {
-            setLoading(true);
-            let res = await loginApi(email, password);
-            setLoading(false);
-            console.log(res)
-            if (res && res?.statusCode == 201) {
-                console.log(res.data.access_token);
-                AsyncStorage.setItem('token', res.data.access_token);
-                navigation.navigate('Home');
-            } else {
-                setError(res.message);
-            }
-        } catch (error) {
-            throw error;
-        }
+        //Submit để lấy otp
+        setLoading(true);
+        let res = await resetPassApi(email, newPassword);
+        setLoading(false);
+        if (res && res?.data) {
+            handleAlert();
+            navigation.navigate('Login');
+            setError("");
+        } else setError(res?.message);
     };
+
+    const handleAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 2000); // Hide the alert after 2 seconds
+    };
+
     return (
         <SafeAreaView className="h-full bg-white">
             <LoadingOverlay visible={loading} />
@@ -41,52 +42,61 @@ export default function LoginScreen({ navigation }) {
                 <ScrollView>
                     <View className="w-full mt-[40%] h-full px-6 my-6">
                         <Text style={styles.title}>EasyFarm</Text>
-                        <Text style={styles.subtitle}>Login</Text>
+                        <Text style={styles.subtitle}>Reset Password</Text>
 
                         {/* Email input */}
                         <TextInput
                             style={[styles.input, error && styles.inputError]}
-                            placeholder="Email"
+                            placeholder="Nhập mật khẩu mới"
                             placeholderTextColor="#999"
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                            secureTextEntry={true}
                             autoCapitalize="none"
-                        />
-
-                        {/* Password input */}
-                        <TextInput
-                            style={[styles.input, error && styles.inputError]}
-                            placeholder="Password"
-                            placeholderTextColor="#999"
-                            secureTextEntry
-                            value={password}
-                            onChangeText={setPassword}
                         />
 
                         {error && <Text style={styles.errorText}>{error}</Text>}
 
                         {/* Login button */}
                         <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
-                            <Text style={styles.loginText}>Log in</Text>
-                        </TouchableOpacity>
-
-                        {/* Navigation links */}
-                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                            <Text style={styles.signUpText}>Sign Up</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                            <Text style={styles.forgotText}>Forget Password?</Text>
+                            <Text style={styles.loginText}>Đặt lại mật khẩu</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+            <Modal animationType="slide" transparent={true} visible={showAlert}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.alertText}>
+                            Đặt lại mật khẩu thành công!
+                        </Text>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
-
     );
 }
 
 const styles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        marginTop: 50,
+        backgroundColor: 'white',
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        elevation: 3,
+    },
+    alertText: {
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: 'green'
+    },
     container: {
         flex: 1,
         backgroundColor: 'white',
@@ -110,7 +120,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         paddingBottom: 8,
-        marginBottom: 8,
+        marginBottom: 15,
         color: '#333',
         fontSize: 16,
     },
