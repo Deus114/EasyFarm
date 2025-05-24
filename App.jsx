@@ -17,8 +17,8 @@ import ScheduleScreen from './screens/schedule/ScheduleScreen';
 import AddScheduleScreen from './screens/schedule/AddScheduleScreen';
 import ScheduleDetails from './screens/schedule/ScheduleDetails';
 
-import SensorsScreen from './screens/sensor/SensorScreen';
-import AddSensorScreen from './screens/sensor/AddSensorScreen';
+import SensorsScreen from './screens/sensors/SensorScreen';
+import AddSensorScreen from './screens/sensors/AddSensorScreen';
 import "./global.css"
 
 const Stack = createNativeStackNavigator();
