@@ -14,7 +14,7 @@ export const authAccountApi = () => {
 
 export const registerApi = (name, email, password) => {
     console.log('register')
-    return instance.post(`api/v1/auth/register`, {
+    return axios.post(`api/v1/auth/register`, {
         name: name,
         email: email,
         password: password,
@@ -23,62 +23,62 @@ export const registerApi = (name, email, password) => {
 }
 
 export const forgotPassApi = (email) => {
-    return instance.post(`api/v1/auth/forgot-password`, {
+    return axios.post(`api/v1/auth/forgot-password`, {
         email
     });
 }
 
 export const verifyOtpApi = (email, otp) => {
-    return instance.post(`api/v1/auth/verify-otp`, {
+    return axios.post(`api/v1/auth/verify-otp`, {
         email, otp
     });
 }
 
 export const resetPassApi = (email, newPassword) => {
-    return instance.post(`api/v1/auth/reset-password`, {
+    return axios.post(`api/v1/auth/reset-password`, {
         email, newPassword
     });
 }
 
 // Sensor module
 export const sensorsApi = (userID) => {
-    return instance.get(`api/v1/sensors/${userID}`);
+    return axios.get(`api/v1/sensors/${userID}`);
 }
 
 export const schedulesApi = (userID) => {
     console.log('called')
-    return instance.get(`api/v1/schedules/${userID}`);
+    return axios.get(`api/v1/schedules/${userID}`);
 }
 
 //Unfinished
 export const schedulesIDApi = (ID) => {
     console.log('called')
-    return instance.get(`api/v1/schedules/${ID}/detail`);
+    return axios.get(`api/v1/schedules/${ID}/detail`);
 }
 
 export const notificationsAPI = () => {
-    return instance.get(`api/v1/notifications`);
+    return axios.get(`api/v1/notifications`);
 }
 
 export const postScheduleApi = (data) => {
-    return instance.post(`api/v1/schedules`,data);
+    return axios.post(`api/v1/schedules`,data);
 }
 
 export const pauseScheduleApi = (ID) => {
-    return instance.patch(`api/v1/schedules/${ID}/pause`);
+    return axios.patch(`api/v1/schedules/${ID}/pause`);
 }
 
 export const resumeScheduleApi = (ID) => {
-    return instance.patch(`api/v1/schedules/${ID}/resume`);
+    return axios.patch(`api/v1/schedules/${ID}/resume`);
 }
 
 export const deleteScheduleApi = (ID) => {
-    return instance.delete(`api/v1/schedules/${ID}`);
+    return axios.delete(`api/v1/schedules/${ID}`);
 }
 
 export const addSensorApi = (name, serialNumber, img, type, description, userID) => {
     // console.log("Post", name, serialNumber, img, type, description, userID);
-    return instance.post(`api/v1/sensors`, {
+    return axios.post(`api/v1/sensors`, {
         name: name, 
         serialNumber: serialNumber, 
         img: img, 

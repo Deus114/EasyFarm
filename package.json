@@ -45,7 +45,8 @@
     "react-native-web": "0.20.0",
     "react-native-webview": "13.13.5",
     "yup": "1.6.1",
-    "@sentry/react-native": "~6.10.0"
+    "@sentry/react-native": "~6.10.0",
+    "@react-native-community/datetimepicker": "git+https://github.com/react-native-datetimepicker/datetimepicker.git"
   },
   "devDependencies": {
     "@babel/core": "7.27.1",

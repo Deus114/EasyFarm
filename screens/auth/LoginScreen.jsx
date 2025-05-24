@@ -8,6 +8,8 @@ export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    
     useEffect(()=>{
         AsyncStorage.setItem('token',null);
         setEmail('user@gmail.com');

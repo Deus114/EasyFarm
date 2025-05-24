@@ -13,6 +13,7 @@ import Summary from './Summary';
 import SensorsList from './SensorsList';
 import ScheduleList from './ScheduleList';
 import Background from '../Background';
+
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
     useEffect(()=>{
