@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const ForumThreadCard = ({ thread, onPress }) => {
+const ForumThreadCard = ({ thread, navigation }) => {
   return (
-    <TouchableOpacity onPress={() => onPress(thread)}>
+    <TouchableOpacity onPress={() => {
+        console.log("ASDASDASD");
+        navigation.navigate('Post');
+    }
+    }>
       <View style={styles.threadCard}>
-        <View style={styles.overlay} />
-        <Text style={styles.threadTitle}>{thread.title}</Text>
-        <Text style={styles.threadAuthor}>By {thread.author}</Text>
-        <Text style={styles.threadSnippet}>{thread.content.slice(0, 100)}...</Text>
-        <Text style={styles.threadTimestamp}>{thread.timestamp}</Text>
+        <Image source={{ uri: thread.img }} style={styles.cardImage} />
+        <Text style={styles.cardTitle}>{thread.title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -17,42 +18,33 @@ const ForumThreadCard = ({ thread, onPress }) => {
 
 const styles = StyleSheet.create({
   threadCard: {
+    width: '100%',
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#E0E0E0',
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 20,
+    padding: 10,
     marginBottom: 10,
-    position: 'relative',
     overflow: 'hidden',
+    position: 'relative',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(76, 175, 80, 0.2)', // Light green overlay
-    borderRadius: 10,
-    zIndex: -1,
+  cardImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+    backgroundColor: '#FFF',
   },
-  threadTitle: {
+  cardTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 5,
-  },
-  threadAuthor: {
-    fontSize: 14,
-    color: '#4CAF50',
-    marginBottom: 5,
-  },
-  threadSnippet: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
-  },
-  threadTimestamp: {
-    fontSize: 12,
-    color: '#888',
+    flex: 1,
+    background: 'linear-gradient(to right, #E0F7E0 50%, #E0E0E0 50%)',
+    paddingLeft: 10,
+    paddingVertical: 10,
+    borderRadius: 10,
   },
 });
 
