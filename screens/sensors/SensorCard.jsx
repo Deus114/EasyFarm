@@ -3,17 +3,17 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const SensorCard = ({ sensor, onPress }) => {
-  // const getTypeIcons = () => {
-  //   const icons = {
-  //     temperature: 'thermometer-outline',
-  //     humidity: 'water-outline',
-  //     light: 'sunny-outline',
-  //     gps: 'location-outline',
-  //   };
-  //   return sensor.types.map((type, index) => (
-  //     <Icon key={index} name={icons[type]} size={20} color="#4CAF50" style={styles.typeIcon} />
-  //   ));
-  // };
+  const getTypeIcons = () => {
+    const icons = {
+      temperature: 'thermometer-outline',
+      humidity: 'water-outline',
+      light: 'sunny-outline',
+      gps: 'location-outline',
+    };
+    return sensor.types.map((type, index) => (
+      <Icon key={index} name={icons[type]} size={20} color="#4CAF50" style={styles.typeIcon} />
+    ));
+  };
 
   return (
     <TouchableOpacity onPress={() => {console.log("A"); onPress(sensor)}}>

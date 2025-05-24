@@ -131,11 +131,11 @@ export default function SensorsScreen({ navigation }) {
                         <Icon
                           key={index}
                           name={
-                            type === 'TEMPERATURE'
+                            type === "TEMPERATURE"
                               ? 'thermometer-outline'
-                              : type === 'humidity'
+                              : type === "HUMIDITY"
                               ? 'water-outline'
-                              : type === 'light'
+                              : type === "LIGHT"
                               ? 'sunny-outline'
                               : 'location-outline'
                           }
