@@ -19,6 +19,9 @@ import ScheduleDetails from './screens/schedule/ScheduleDetails';
 
 import SensorsScreen from './screens/sensors/SensorScreen';
 import AddSensorScreen from './screens/sensors/AddSensorScreen';
+
+import ForumScreen from './screens/forum/ForumScreen';
+
 import "./global.css"
 
 const Stack = createNativeStackNavigator();
@@ -71,6 +74,7 @@ function App() {
         <Stack.Screen name="AddSchedule" component={AddScheduleScreen} />
         <Stack.Screen name="ViewSensor" component={SensorsScreen} />
         <Stack.Screen name="AddSensor" component={AddSensorScreen} />
+        <Stack.Screen name="Forum" component={ForumScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
