@@ -3,13 +3,20 @@ import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import OnboardingScreen from './screens/OnboardingScreen';
-import HomeScreen from './screens/HomeScreen';
+import HomeScreen from './screens/home/HomeScreen';
+
 import LoginScreen from './screens/auth/LoginScreen';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
 import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
 import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
+
+import ScheduleScreen from './screens/schedule/ScheduleScreen';
+import AddScheduleScreen from './screens/schedule/AddScheduleScreen';
+import ScheduleDetails from './screens/schedule/ScheduleDetails';
+
 import SensorsScreen from './screens/sensors/SensorScreen';
 import AddSensorScreen from './screens/sensors/AddSensorScreen';
 import "./global.css"
@@ -59,7 +66,10 @@ function App() {
         <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ViewSensors" component={SensorsScreen} />
+        <Stack.Screen name="Schedule" component={ScheduleScreen} />
+        <Stack.Screen name="ScheduleDetails" component={ScheduleDetails}/>
+        <Stack.Screen name="AddSchedule" component={AddScheduleScreen} />
+        <Stack.Screen name="ViewSensor" component={SensorsScreen} />
         <Stack.Screen name="AddSensor" component={AddSensorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
