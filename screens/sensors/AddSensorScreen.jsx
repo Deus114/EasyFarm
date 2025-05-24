@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -66,24 +66,24 @@ export default function AddSensorScreen() {
   const [selectedSensor, setSelectedSensor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [customName, setCustomName] = useState('');
-  
-  var userId = 0;
+  const [error, setError] = useState('')
+  const [userId, setUserId] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchUserID = async () => {
-  //       try {
-  //           let accountRes = await authAccountApi();
-  //           console.log("Account", accountRes, accountRes?.statusCode)
-  //           if (accountRes && accountRes?.statusCode == 200) {
-  //               userId = accountRes.data.user.id;
-  //               console.log("User ID", userId)
-  //           }
-  //       } catch (error) {
-  //           throw error;
-  //       }
-  //   }
-  //   fetchUserID();
-  // }, []);
+  useEffect(() => {
+    const fetchUserID = async () => {
+        try {
+            let accountRes = await authAccountApi();
+            console.log("Account", accountRes, accountRes?.statusCode)
+            if (accountRes && accountRes?.statusCode == 200) {
+                setUserId(accountRes.data.user.id);
+                console.log("User ID", userId)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    fetchUserID();
+  }, []);
 
   const filteredSensors = hardcodedSensors.filter(sensor =>
     sensor.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -105,7 +105,6 @@ export default function AddSensorScreen() {
         type: selectedSensor.type,
       }
       console.log('Adding sensor:', { ...sensorToAdd});
-      closeModal();
       // Here you would typically add the sensor to a state or send it to an API
       // name, serialNumber, img, type, description, userID
       let res = await addSensorApi(
@@ -116,10 +115,11 @@ export default function AddSensorScreen() {
         sensorToAdd.description,
         userId,
       )
-      console.log("Gay", res, res?.statusCode);
-      // if (res && res?.data) {
-      //   navigation.navigate('ViewSensor');
-      // } else setError(res?.message);
+      console.log("Gay", res);
+      closeModal();
+      if (res && res?.statusCode == 201) {
+        navigation.navigate('ViewSensor');
+      } else setError(res?.message);
     }
   };
 

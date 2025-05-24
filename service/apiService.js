@@ -46,7 +46,13 @@ export const sensorsApi = (userID) => {
 }
 
 export const addSensorApi = (name, serialNumber, img, type, description, userID) => {
+    // console.log("Post", name, serialNumber, img, type, description, userID);
     return instance.post(`api/v1/sensors`, {
-        name, serialNumber, img, type, description, userID
+        name: name, 
+        serialNumber: serialNumber, 
+        img: img, 
+        type: type, 
+        description: description, 
+        userId: userID
     });
 }
