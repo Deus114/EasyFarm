@@ -7,25 +7,31 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import ScheduleList from '../HomeScreen/ScheduleList';
+import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
 import Background from '../Background';
 import Icon from 'react-native-vector-icons/Ionicons';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionChange}) => {
+const Monthly = ({data,onTitleChange,onHourChange,onMinuteChange,onDescriptionChange,onDateChange}) => {
     const [title, setTitle] = useState('');
     const [hour, setHour] = useState('00');
     const [minute, setMinute] = useState('00');
+    const [DoM, setDoM] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
     const [description, setDescription] = useState('');
     useEffect(()=>{
-        if(data){
-            setTitle(data.title)
-            setHour(data.startTime.substring(0,2))
-            setMinute(data.startTime.substring(3,5))
-            setDescription(data.description)
-        }
-    })
+            if(data){
+                setTitle(data.title)
+                setHour(data.startTime.substring(0,2))
+                setMinute(data.startTime.substring(3,5))
+                setDescription(data.description)
+                const tempDoM = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
+                for(let i = 0; i < data.repeatDates.length;i++){
+                    tempDoM[data.repeatDates[i]-1] = true; // Thay đổi giá trị trên bản sao
+                    
+                }
+                setDoM(tempDoM );
+            }
+        },[])
     return (
         <>
         <View className='w-full mt-[20px] h-[50px]'>
@@ -37,7 +43,7 @@ const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCha
         </View>
         <View className='w-full mt-[20px]'>
             <TextInput
-                className='w-full h-[50px] bg-[#DFF1E6] rounded-xl p-4'
+                className='w-full h-[50px] bg-[#DFF1E6] rounded-full p-4'
                 placeholder="Description"
                 placeholderTextColor="#999"
                 value={title}
@@ -58,9 +64,9 @@ const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCha
                     placeholder="Hour"
                     placeholderTextColor="#999"
                     value={hour}
-                    editable={data==null}
                     onChangeText={(value)=>{setHour(value);onHourChange(value)}}
                     keyboardType="numeric"
+                    editable={data==null}
                     maxLength={2}
                 />
                 <View className='w-[10%] h-full items-center'>
@@ -71,12 +77,40 @@ const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCha
                     placeholder="Minute"
                     placeholderTextColor="#999"
                     value={minute}
-                    editable={data==null}
                     onChangeText={(value)=>{setMinute(value);onMinuteChange(value)}}
                     keyboardType="numeric"
+                    editable={data==null}
                     maxLength={2}
                 />
             </View>
+        </View>
+        <View className='w-full mt-[20px] h-[50px]'>
+            <View className='h-full'>
+                <Text className='font-bold text-[22px] my-auto'>
+                Repeat on
+                </Text>
+            </View>
+        </View>
+        <View className='w-full flex-row flex-wrap mt-[20px] justify-between px-[5%]'>
+          {
+            DoM.map((isActive, index) => (
+            <TouchableOpacity 
+                key={index}
+                onPress={() => {
+                const newDoM = [...DoM]; // Tạo bản sao của mảng
+                newDoM[index] = !isActive; // Thay đổi giá trị trên bản sao
+                setDoM(newDoM); // Cập nhật state với mảng mới
+                onDateChange(newDoM);
+                }}
+                className={`w-[10%] mx-2 my-2 aspect-square rounded-full ${
+                isActive ? 'bg-[#4CAF50]' : 'bg-[#DFF1E6]'
+                }`}
+                disabled={data!=null}
+            >
+                <Text className='my-auto text-center'>{index+1}</Text>
+            </TouchableOpacity>
+            ))
+          }
         </View>
         <View className='w-full mt-[20px] h-[50px]'>
             <View className='h-full'>
@@ -95,11 +129,12 @@ const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCha
                 numberOfLines={4}
                 onChangeText={(value)=>{setDescription(value);onDescriptionChange(value)}}
                 keyboardType="text"
+                editable={data==null}
             />
         </View>
         </>
     
-  )
+    )
 }
 
-export default Daily
+export default Monthly

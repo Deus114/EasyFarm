@@ -7,31 +7,33 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import ScheduleList from '../HomeScreen/ScheduleList';
+import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
 import Background from '../Background';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Monthly = ({data,onTitleChange,onHourChange,onMinuteChange,onDescriptionChange,onDateChange}) => {
+const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionChange,onDateChange}) => {
     const [title, setTitle] = useState('');
     const [hour, setHour] = useState('00');
     const [minute, setMinute] = useState('00');
-    const [DoM, setDoM] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
+    const [DoW, setDoW] = useState([false,false,false,false,false,false,false]);
+    const sevenDays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const [description, setDescription] = useState('');
     useEffect(()=>{
-            if(data){
-                setTitle(data.title)
-                setHour(data.startTime.substring(0,2))
-                setMinute(data.startTime.substring(3,5))
-                setDescription(data.description)
-                const tempDoM = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
-                for(let i = 0; i < data.repeatDates.length;i++){
-                    tempDoM[data.repeatDates[i]-1] = true; // Thay đổi giá trị trên bản sao
-                    
-                }
-                setDoM(tempDoM );
+        if(data){
+            setTitle(data.title)
+            setHour(data.startTime.substring(0,2))
+            setMinute(data.startTime.substring(3,5))
+            setDescription(data.description)
+            const tempDoW = [false,false,false,false,false,false,false];
+            for(let i = 0; i < data.repeatDays.length;i++){
+                tempDoW[data.repeatDays[i]] = true; // Thay đổi giá trị trên bản sao
+                
             }
-        },[])
+            setDoW(tempDoW);
+        }
+    },[])
+
     return (
         <>
         <View className='w-full mt-[20px] h-[50px]'>
@@ -43,7 +45,7 @@ const Monthly = ({data,onTitleChange,onHourChange,onMinuteChange,onDescriptionCh
         </View>
         <View className='w-full mt-[20px]'>
             <TextInput
-                className='w-full h-[50px] bg-[#DFF1E6] rounded-full p-4'
+                className='w-full h-[50px] bg-[#DFF1E6] rounded-xl p-4'
                 placeholder="Description"
                 placeholderTextColor="#999"
                 value={title}
@@ -91,26 +93,26 @@ const Monthly = ({data,onTitleChange,onHourChange,onMinuteChange,onDescriptionCh
                 </Text>
             </View>
         </View>
-        <View className='w-full flex-row flex-wrap mt-[20px] justify-between px-[5%]'>
-          {
-            DoM.map((isActive, index) => (
-            <TouchableOpacity 
-                key={index}
-                onPress={() => {
-                const newDoM = [...DoM]; // Tạo bản sao của mảng
-                newDoM[index] = !isActive; // Thay đổi giá trị trên bản sao
-                setDoM(newDoM); // Cập nhật state với mảng mới
-                onDateChange(newDoM);
-                }}
-                className={`w-[10%] mx-2 my-2 aspect-square rounded-full ${
-                isActive ? 'bg-[#4CAF50]' : 'bg-[#DFF1E6]'
-                }`}
-                disabled={data!=null}
-            >
-                <Text className='my-auto text-center'>{index+1}</Text>
-            </TouchableOpacity>
-            ))
-          }
+        <View className='w-full flex-row mt-[20px] justify-between'>
+            {
+                DoW.map((isActive, index) => (
+                <TouchableOpacity 
+                    key={index}
+                    onPress={() => {
+                    const newDoW = [...DoW]; // Tạo bản sao của mảng
+                    newDoW[index] = !isActive; // Thay đổi giá trị trên bản sao
+                    setDoW(newDoW); // Cập nhật state với mảng mới
+                    onDateChange(newDoW);
+                    }}
+                    className={`w-[10%] mx-2 my-2 aspect-square rounded-full ${
+                    isActive ? 'bg-[#4CAF50]' : 'bg-[#DFF1E6]'
+                    }`}
+                    disabled={data!=null}
+                >
+                    <Text className='my-auto text-center'>{sevenDays[index]}</Text>
+                </TouchableOpacity>
+                ))
+            }
         </View>
         <View className='w-full mt-[20px] h-[50px]'>
             <View className='h-full'>
@@ -137,4 +139,4 @@ const Monthly = ({data,onTitleChange,onHourChange,onMinuteChange,onDescriptionCh
     )
 }
 
-export default Monthly
+export default Weekly

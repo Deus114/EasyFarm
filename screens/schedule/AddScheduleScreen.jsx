@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import ScheduleList from '../HomeScreen/ScheduleList';
+import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
 import Background from '../Background';
 import Icon from 'react-native-vector-icons/Ionicons';

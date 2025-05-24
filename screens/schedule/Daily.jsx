@@ -7,17 +7,16 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import ScheduleList from '../HomeScreen/ScheduleList';
+import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
 import Background from '../Background';
 import Icon from 'react-native-vector-icons/Ionicons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionChange,onDateChange}) => {
+const Daily = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionChange}) => {
     const [title, setTitle] = useState('');
     const [hour, setHour] = useState('00');
     const [minute, setMinute] = useState('00');
-    const [DoW, setDoW] = useState([false,false,false,false,false,false,false]);
-    const sevenDays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const [description, setDescription] = useState('');
     useEffect(()=>{
         if(data){
@@ -25,15 +24,8 @@ const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCh
             setHour(data.startTime.substring(0,2))
             setMinute(data.startTime.substring(3,5))
             setDescription(data.description)
-            const tempDoW = [false,false,false,false,false,false,false];
-            for(let i = 0; i < data.repeatDays.length;i++){
-                tempDoW[data.repeatDays[i]] = true; // Thay đổi giá trị trên bản sao
-                
-            }
-            setDoW(tempDoW);
         }
-    },[])
-
+    })
     return (
         <>
         <View className='w-full mt-[20px] h-[50px]'>
@@ -66,9 +58,9 @@ const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCh
                     placeholder="Hour"
                     placeholderTextColor="#999"
                     value={hour}
+                    editable={data==null}
                     onChangeText={(value)=>{setHour(value);onHourChange(value)}}
                     keyboardType="numeric"
-                    editable={data==null}
                     maxLength={2}
                 />
                 <View className='w-[10%] h-full items-center'>
@@ -79,40 +71,12 @@ const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCh
                     placeholder="Minute"
                     placeholderTextColor="#999"
                     value={minute}
+                    editable={data==null}
                     onChangeText={(value)=>{setMinute(value);onMinuteChange(value)}}
                     keyboardType="numeric"
-                    editable={data==null}
                     maxLength={2}
                 />
             </View>
-        </View>
-        <View className='w-full mt-[20px] h-[50px]'>
-            <View className='h-full'>
-                <Text className='font-bold text-[22px] my-auto'>
-                Repeat on
-                </Text>
-            </View>
-        </View>
-        <View className='w-full flex-row mt-[20px] justify-between'>
-            {
-                DoW.map((isActive, index) => (
-                <TouchableOpacity 
-                    key={index}
-                    onPress={() => {
-                    const newDoW = [...DoW]; // Tạo bản sao của mảng
-                    newDoW[index] = !isActive; // Thay đổi giá trị trên bản sao
-                    setDoW(newDoW); // Cập nhật state với mảng mới
-                    onDateChange(newDoW);
-                    }}
-                    className={`w-[10%] mx-2 my-2 aspect-square rounded-full ${
-                    isActive ? 'bg-[#4CAF50]' : 'bg-[#DFF1E6]'
-                    }`}
-                    disabled={data!=null}
-                >
-                    <Text className='my-auto text-center'>{sevenDays[index]}</Text>
-                </TouchableOpacity>
-                ))
-            }
         </View>
         <View className='w-full mt-[20px] h-[50px]'>
             <View className='h-full'>
@@ -131,12 +95,11 @@ const Weekly = ({data,onTitleChange, onHourChange,onMinuteChange,onDescriptionCh
                 numberOfLines={4}
                 onChangeText={(value)=>{setDescription(value);onDescriptionChange(value)}}
                 keyboardType="text"
-                editable={data==null}
             />
         </View>
         </>
     
-    )
+  )
 }
 
-export default Weekly
+export default Daily
