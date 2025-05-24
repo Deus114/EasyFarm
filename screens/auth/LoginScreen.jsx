@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { loginApi } from '../../service/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingOverlay from '../../components/loading';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -18,11 +19,13 @@ export default function LoginScreen({ navigation }) {
             return;
         }
         try {
+            setLoading(true);
             let res = await loginApi(email, password);
+            setLoading(false);
             console.log(res)
             if (res && res?.statusCode == 201) {
                 console.log(res.data.access_token);
-                AsyncStorage.setItem('token',res.data.access_token);
+                AsyncStorage.setItem('token', res.data.access_token);
                 navigation.navigate('Home');
             } else {
                 setError(res.message);
@@ -46,31 +49,31 @@ export default function LoginScreen({ navigation }) {
                 autoCapitalize="none"
             />
 
-            {/* Password input */}
-            <TextInput
-                style={[styles.input, error && styles.inputError]}
-                placeholder="Password"
-                placeholderTextColor="#999"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-            />
+                        {/* Password input */}
+                        <TextInput
+                            style={[styles.input, error && styles.inputError]}
+                            placeholder="Password"
+                            placeholderTextColor="#999"
+                            secureTextEntry
+                            value={password}
+                            onChangeText={setPassword}
+                        />
 
-            {error && <Text style={styles.errorText}>{error}</Text>}
+                        {error && <Text style={styles.errorText}>{error}</Text>}
 
-            {/* Login button */}
-            <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
-                <Text style={styles.loginText}>Log in</Text>
-            </TouchableOpacity>
+                        {/* Login button */}
+                        <TouchableOpacity style={styles.loginButton} onPress={() => onSubmit()}>
+                            <Text style={styles.loginText}>Log in</Text>
+                        </TouchableOpacity>
 
-            {/* Navigation links */}
-            <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
-                <Text style={styles.signUpText}>Sign Up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=> navigation.navigate('ForgotPassword')}>
-                <Text style={styles.forgotText}>Forget Password?</Text>
-            </TouchableOpacity>
-        </View>
+                        {/* Navigation links */}
+                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                            <Text style={styles.signUpText}>Sign Up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                            <Text style={styles.forgotText}>Forget Password?</Text>
+                        </TouchableOpacity>
+                    </View>
     );
 }
 
