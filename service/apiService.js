@@ -44,3 +44,9 @@ export const resetPassApi = (email, newPassword) => {
 export const sensorsApi = (userID) => {
     return instance.get(`api/v1/sensors/${userID}`);
 }
+
+export const addSensorApi = (name, serialNumber, img, type, description, userID) => {
+    return instance.post(`api/v1/sensors`, {
+        name, serialNumber, img, type, description, userID
+    });
+}

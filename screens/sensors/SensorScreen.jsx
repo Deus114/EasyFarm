@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import SensorCard from './SensorCard';
 import { authAccountApi, sensorsApi } from '../../service/apiService';
+
 const initialSensors = [
   {
     description: 'Loading...',
@@ -30,30 +31,32 @@ export default function SensorsScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [selectedSensor, setSelectedSensor] = useState(null);
 
-    useEffect(() => {
-        const fetchUserID = async () => {
-            try {
-                let accountRes = await authAccountApi();
-                console.log("Account", accountRes, accountRes?.statusCode)
-                if (accountRes && accountRes?.statusCode == 200) {
-                    let userId = accountRes.data.user.id;
-                    console.log("User ID", userId)
-                    try {
-                        let sensorRes = await sensorsApi(userId);
-                        console.log("Sensor", sensorRes)
-                        if (sensorRes && sensorRes?.statusCode == 200) {
-                            setSensors(sensorRes.data);
-                        }
-                    } catch (error) {
-                        throw error;
+  useEffect(() => {
+    const fetchUserID = async () => {
+      try {
+        let accountRes = await authAccountApi();
+              console.log("Account", accountRes, accountRes?.statusCode)
+              if (accountRes && accountRes?.statusCode == 200) {
+                  let userId = accountRes.data.user.id;
+                  console.log("User ID", userId)
+                  try {
+                      let sensorRes = await sensorsApi(userId);
+                      console.log("Sensor", sensorRes)
+                      if (sensorRes && sensorRes?.statusCode == 200) {
+                          setSensors(sensorRes.data);
+                      }
+                  } catch (error) {
+                      throw error;
                     }
-                }
-            } catch (error) {
-                throw error;
-            }
-        }
-        fetchUserID();
-    }, []);
+              }
+          } catch (error) {
+            throw error;
+          }
+      }
+    setLoading(true);
+    fetchUserID();
+    setLoading(false);
+  }, []);
 
   const filteredSensors = sensors.filter(sensor =>
     sensor.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -89,7 +92,7 @@ export default function SensorsScreen({ navigation }) {
       </ScrollView>
 
       {/* Add Button */}
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSensor')}>
         <Icon name="add" size={30} color="#fff" />
       </TouchableOpacity>
 
@@ -127,22 +130,17 @@ export default function SensorsScreen({ navigation }) {
                   <View style={styles.modalDetail}>
                     <Text style={styles.modalLabel}>Category:</Text>
                     <View style={styles.modalTypes}>
-                      {/* {selectedSensor.types.map((type, index) => (
-                        <Icon
-                          key={index}
-                          name={
-                            type === "TEMPERATURE"
-                              ? 'thermometer-outline'
-                              : type === "HUMIDITY"
-                              ? 'water-outline'
-                              : type === "LIGHT"
-                              ? 'sunny-outline'
-                              : 'location-outline'
-                          }
-                          size={20}
-                          color="#4CAF50"
-                        />
-                      ))} */}
+                      <Icon
+                        name={
+                          selectedSensor.type === 'TEMPERATURE' ? 'thermometer-outline'
+                        : selectedSensor.type === 'HUMIDITY' ? 'water-outline'
+                        : selectedSensor.type === 'LIGHT' ? 'sunny-outline'
+                        : selectedSensor.type === 'GPS' ? 'location-outline'
+                        : 'help-circle-outline'
+                        }
+                        size={20}
+                        color="#4CAF50"
+                      />
                     </View>
                   </View>
                 </View>

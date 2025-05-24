@@ -11,6 +11,7 @@ import ForgotPasswordScreen from './screens/auth/ForgotPasswordScreen'
 import VerifyOtpScreen from './screens/auth/VerifyOtpScreen';
 import ResetPasswordScreen from './screens/auth/ResetPasswordScreen';
 import SensorsScreen from './screens/sensors/SensorScreen';
+import AddSensorScreen from './screens/sensors/AddSensorScreen';
 import "./global.css"
 
 const Stack = createNativeStackNavigator();
@@ -58,7 +59,8 @@ function App() {
         <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Sensors" component={SensorsScreen} />
+        <Stack.Screen name="ViewSensors" component={SensorsScreen} />
+        <Stack.Screen name="AddSensor" component={AddSensorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
