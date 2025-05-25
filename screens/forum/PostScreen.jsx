@@ -50,7 +50,7 @@ export default function PostScreen({ navigation }) {
   const handleAddPress = () => {
     // Add functionality for the "Add" button here
     console.log('Add button pressed');
-    navigation.navigate('CreatePost');
+    navigation.navigate('AddPost');
   };
 
   return (

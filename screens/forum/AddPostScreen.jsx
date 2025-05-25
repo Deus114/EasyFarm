@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { postPostApi } from '../../service/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function CreatePostScreen({ navigation }) {
+export default function AddPostScreen({ navigation }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 

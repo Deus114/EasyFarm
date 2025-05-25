@@ -22,7 +22,7 @@ import AddSensorScreen from './screens/sensors/AddSensorScreen';
 
 import ForumScreen from './screens/forum/ForumScreen';
 import PostScreen from './screens/forum/PostScreen';
-import CreatePostScreen from './screens/forum/CreatePostScreen';
+import AddPostScreen from './screens/forum/AddPostScreen';
 import DetailedPostScreen from './screens/forum/DetailedPostScreen';
 
 import "./global.css"
@@ -78,7 +78,7 @@ function App() {
         <Stack.Screen name="AddSensor" component={AddSensorScreen} />
         <Stack.Screen name="Forum" component={ForumScreen} />
         <Stack.Screen name="Post" component={PostScreen} />
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+        <Stack.Screen name="AddPost" component={AddPostScreen} />
         <Stack.Screen name="DetailedPost" component={DetailedPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
