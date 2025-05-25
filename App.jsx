@@ -23,6 +23,7 @@ import AddSensorScreen from './screens/sensors/AddSensorScreen';
 import ForumScreen from './screens/forum/ForumScreen';
 import PostScreen from './screens/forum/PostScreen';
 import CreatePostScreen from './screens/forum/CreatePostScreen';
+import DetailedPostScreen from './screens/forum/DetailedPostScreen';
 
 import "./global.css"
 import * as Sentry from '@sentry/react-native';
@@ -78,6 +79,7 @@ function App() {
         <Stack.Screen name="Forum" component={ForumScreen} />
         <Stack.Screen name="Post" component={PostScreen} />
         <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+        <Stack.Screen name="DetailedPost" component={DetailedPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>
