@@ -15,19 +15,19 @@ const hardcodedThreads = [
   {
     id: '1',
     title: 'Cách trồng cây',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     timestamp: 'May 24, 2025, 3:00 PM',
   },
   {
     id: '2',
     title: 'AI Ethics Discussion',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     timestamp: 'May 24, 2025, 2:30 PM',
   },
   {
     id: '3',
     title: 'Favorite Coding Tools in 2025',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     timestamp: 'May 24, 2025, 1:15 PM',
   },
 ];

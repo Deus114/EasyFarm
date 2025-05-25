@@ -18,7 +18,7 @@ const hardcodedSensors = [
 {
     description: 'DHT20',
     name: 'DHT20',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     serialNumber: "123456",
     type: 'TEMPERATURE',
     powerSupply: '10-30V DC',
@@ -29,7 +29,7 @@ const hardcodedSensors = [
 {
     description: 'LIGHT',
     name: 'Light Sensor',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     serialNumber: "123456",
     type: 'LIGHT',
     powerSupply: '10-30V DC',
@@ -40,7 +40,7 @@ const hardcodedSensors = [
 {
     description: 'GPS',
     name: 'AT6668',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     serialNumber: "123456",
     type: 'GPS',
     powerSupply: '10-30V DC',
@@ -51,7 +51,7 @@ const hardcodedSensors = [
 {
     description: 'ASDFGHJKL',
     name: 'Humidity Sensor',
-    img: 'https://via.placeholder.com/50',
+    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     serialNumber: "123456",
     type: 'HUMIDITY',
     powerSupply: '10-30V DC',

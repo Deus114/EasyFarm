@@ -88,15 +88,15 @@ export const addSensorApi = (name, serialNumber, img, type, description, userID)
     });
 }
 
-export const getAllPosts = () => {
+export const getAllPostsApi = () => {
     return axios.get(`api/v1/posts`);
 }
 
-export const getPost = (ID) => {
+export const getPostApi = (ID) => {
     return axios.get(`api/v1/posts/${ID}`);
 }
 
-export const postPost = (title, content, userId) => {
+export const postPostApi = (title, content, userId) => {
     return axios.post(`api/v1/posts`, {
         title: title,
         content: content,

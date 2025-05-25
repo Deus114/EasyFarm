@@ -1,14 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const PostCard = ({ post }) => {
   return (
-    <View style={styles.postCard}>
-      <Text style={styles.cardTitle}>{post.title}</Text>
-      <Text style={styles.cardContentSnippet}>
-        {post.content.length > 200 ? `${post.content.slice(0, 200)}...` : post.content}
-      </Text>
-    </View>
+    <TouchableOpacity onPress={() => console.log("Gay")}>
+      <View style={styles.postCard}>
+        <Text style={styles.cardTitle}>{post.title}</Text>
+        <Text style={styles.cardContentSnippet}>
+          {post.content.length > 200 ? `${post.content.slice(0, 200)}...` : post.content}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

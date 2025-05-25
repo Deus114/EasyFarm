@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getAllPosts } from '../../service/apiService';
+import { getAllPostsApi } from '../../service/apiService';
 import PostCard from './PostCard';
 
 const initialPosts = [
@@ -29,7 +29,7 @@ export default function PostScreen({ navigation }) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const postData = await getAllPosts();
+        const postData = await getAllPostsApi();
         if (postData && postData?.status == 200) {
             console.log("Fetch post data success");
             // if (postData.data.size() > 0) {
@@ -43,15 +43,23 @@ export default function PostScreen({ navigation }) {
     fetchPost();
   },);
 
+  const handleAddPress = () => {
+    // Add functionality for the "Add" button here
+    console.log('Add button pressed');
+    navigation.navigate('CreatePost');
+  };
 
   return (
     <View style={styles.container}>
-      {/* Header with Back Button */}
+      {/* Header with Back Button and Add Button */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
         </TouchableOpacity>
         <Text style={styles.header}>Thread Details</Text>
+        <TouchableOpacity onPress={handleAddPress} style={styles.addButton}>
+          <Icon name="add-outline" size={30} color="#4CAF50" />
+        </TouchableOpacity>
       </View>
 
       {/* Thread Content */}
@@ -72,7 +80,7 @@ export default function PostScreen({ navigation }) {
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
@@ -80,6 +88,7 @@ const styles = {
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between', // Distribute space to position Add button on the right
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderBottomWidth: 1,
@@ -90,17 +99,22 @@ const styles = {
     fontWeight: 'bold',
     color: '#4CAF50',
     marginLeft: 10,
+    flex: 1, // Allow title to take remaining space
+    textAlign: 'center', // Center the title
+  },
+  addButton: {
+    marginLeft: 'auto', // Push the button to the right
   },
   scrollView: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 10, // Reduced from 20
+    paddingTop: 10,
   },
   threadContentContainer: {
     backgroundColor: '#E0F7E0',
     borderRadius: 10,
     padding: 15,
-    marginBottom: 5, // Reduced from 20
+    marginBottom: 5,
   },
   threadContent: {
     fontSize: 16,
@@ -115,4 +129,4 @@ const styles = {
     fontSize: 18,
     color: '#888',
   },
-};
+});
