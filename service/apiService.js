@@ -87,3 +87,19 @@ export const addSensorApi = (name, serialNumber, img, type, description, userID)
         userId: userID
     });
 }
+
+export const getAllPostsApi = () => {
+    return axios.get(`api/v1/posts`);
+}
+
+export const getPostApi = (ID) => {
+    return axios.get(`api/v1/posts/${ID}`);
+}
+
+export const postPostApi = (title, content, userId) => {
+    return axios.post(`api/v1/posts`, {
+        title: title,
+        content: content,
+        userId: userId
+    });
+}

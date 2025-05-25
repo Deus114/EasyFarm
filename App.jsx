@@ -19,11 +19,16 @@ import ScheduleDetails from './screens/schedule/ScheduleDetails';
 
 import SensorsScreen from './screens/sensors/SensorScreen';
 import AddSensorScreen from './screens/sensors/AddSensorScreen';
+
+import ForumScreen from './screens/forum/ForumScreen';
+import PostScreen from './screens/forum/PostScreen';
+import AddPostScreen from './screens/forum/AddPostScreen';
+import DetailedPostScreen from './screens/forum/DetailedPostScreen';
+
 import "./global.css"
+import * as Sentry from '@sentry/react-native';
 
 const Stack = createNativeStackNavigator();
-
-import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
   dsn: 'https://b0e5b3fc28a5c27ba8affce8f64f3a24@o4509285341921280.ingest.us.sentry.io/4509285526929408',
@@ -71,6 +76,10 @@ function App() {
         <Stack.Screen name="AddSchedule" component={AddScheduleScreen} />
         <Stack.Screen name="ViewSensor" component={SensorsScreen} />
         <Stack.Screen name="AddSensor" component={AddSensorScreen} />
+        <Stack.Screen name="Forum" component={ForumScreen} />
+        <Stack.Screen name="Post" component={PostScreen} />
+        <Stack.Screen name="AddPost" component={AddPostScreen} />
+        <Stack.Screen name="DetailedPost" component={DetailedPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // </Provider>

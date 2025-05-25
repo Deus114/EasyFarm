@@ -13,6 +13,7 @@ import Summary from './Summary';
 import SensorsList from './SensorsList';
 import ScheduleList from './ScheduleList';
 import Background from '../Background';
+import ForumList from './ForumList';
 
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
@@ -62,6 +63,14 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             {userId && <ScheduleList userId = {userId} navigation={navigation} maxItems = {4} />}
+            {/* Forum */}
+            <View className="flex flex-row justify-between w-full">
+                <Text className="text-[#505050] text-[22px] font-semibold mt-5">Forum</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
+                    <Text className="text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1">View All</Text>
+                </TouchableOpacity>
+            </View>
+            {userId && <ForumList userId={userId} navigation={navigation} maxItems={4} />}
         </ScrollView>
         </View>
     );
