@@ -30,10 +30,10 @@ const EFHeader = ({name,inputOn=false,onInputData,userId,navigation}) => {
   return (
   <>
     {notificationOn &&
-      <View className='fixed w-full h-full bg-gray-800/50 z-10'>
+      <View className='fixed w-full h-full bg-gray-800/50 z-20'>
       </View>
     }  
-    <View className='fixed w-full top-[40px] z-20'>
+    <View className='fixed w-full top-[40px] z-30'>
       <View className='flex-row justify-between items-center mb-[10px] mx-[10px]'>
         <TouchableOpacity onPress={()=>navigation.navigate('Home')}><Text className='text-[26px] font-bold text-[#4CAF50]'>{name}</Text></TouchableOpacity>
         <TouchableOpacity onPress={()=>setNotifications(!notificationOn)} className='bg-green-100 rounded-full'>
@@ -54,7 +54,7 @@ const EFHeader = ({name,inputOn=false,onInputData,userId,navigation}) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
-            <TouchableOpacity onPress={()=>setNotifications(!notificationOn)} className='h-[50px] w-[50px] rounded-full ml-2 flex-shrink-0 z-0'>
+            <TouchableOpacity onPress={()=>setNotifications(!notificationOn)} className='h-[50px] w-[50px] rounded-full ml-2 flex-shrink-0 z-10'>
               <Icon name="options-outline" size={50} color="#4CAF50" />
             </TouchableOpacity>
             </>   
