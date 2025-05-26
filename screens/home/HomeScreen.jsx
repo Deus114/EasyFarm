@@ -4,6 +4,7 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
+    SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authAccountApi, sensorsApi } from '../../service/apiService';
@@ -33,7 +34,7 @@ export default function HomeScreen({ navigation }) {
         fetchUserID();
     },[]);
     return (
-        <View className='w-full h-full'>
+        <SafeAreaView className="h-full bg-white">
         {/* Background Circle */}
         <Background/>
         <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation}/>
@@ -72,6 +73,6 @@ export default function HomeScreen({ navigation }) {
             </View>
             {userId && <ForumList userId={userId} navigation={navigation} maxItems={4} />}
         </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
