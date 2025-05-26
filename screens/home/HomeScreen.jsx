@@ -4,7 +4,6 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authAccountApi, sensorsApi } from '../../service/apiService';
@@ -14,7 +13,6 @@ import Summary from './Summary';
 import SensorsList from './SensorsList';
 import ScheduleList from './ScheduleList';
 import Background from '../Background';
-import ForumList from './ForumList';
 
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
@@ -34,14 +32,14 @@ export default function HomeScreen({ navigation }) {
         fetchUserID();
     },[]);
     return (
-        <SafeAreaView className="h-full bg-white">
+        <View className='w-full h-full'>
         {/* Background Circle */}
         <Background/>
         <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation}/>
         {/* <View className='fixed rounded-full w-[150%] aspect-square bg-[#CAEBBE] -translate-x-1/2 translate-y-1/4 -z-10'></View> */}
-        <ScrollView className='flex px-4 mt-[80px]'>
+        <ScrollView className='flex px-4 mt-[90px] z-10'>
             {/* Categories */}
-            <Categories/>
+            <Categories navigation={navigation}/>
             {/* Summary */}
             <View className="flex flex-row justify-between w-full">
                 <Text className='text-[#505050] text-[22px] font-semibold mt-5'>Summary</Text>
@@ -64,15 +62,7 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             {userId && <ScheduleList userId = {userId} navigation={navigation} maxItems = {4} />}
-            {/* Forum */}
-            <View className="flex flex-row justify-between w-full">
-                <Text className="text-[#505050] text-[22px] font-semibold mt-5">Forum</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Forum')}>
-                    <Text className="text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1">View All</Text>
-                </TouchableOpacity>
-            </View>
-            {userId && <ForumList userId={userId} navigation={navigation} maxItems={4} />}
         </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }

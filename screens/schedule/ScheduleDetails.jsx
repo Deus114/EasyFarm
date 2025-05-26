@@ -86,7 +86,7 @@ const ScheduleDetails = ({navigation,route}) => {
     <View className='w-full h-full'>
         <Background/>
         <EFHeader name={data.title} navigation={navigation}/>
-        {data && <ScrollView className='flex px-4 mt-[90px] h-full'>
+        {data && <ScrollView className='flex px-4 mt-[90px] h-full z-10'>
             {(() => {
             switch (data.repeatType) {
               case 'DAILY':

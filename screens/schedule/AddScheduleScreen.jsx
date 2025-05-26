@@ -70,7 +70,7 @@ const AddScheduleScreen = ({navigation}) => {
     <View className='w-full h-full'>
         <Background/>
         <EFHeader name={"Add Schedule"} navigation={navigation}/>
-        <ScrollView className='flex px-4 h-full mt-[90px]'>
+        <ScrollView className='flex px-4 h-full mt-[90px] z-10'>
             <ChooseMode handleMode={setMode}/>
             {(() => {
             switch (mode) {
