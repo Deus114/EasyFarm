@@ -4,61 +4,45 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // Mock API function for forums (replace with actual API call)
-const initialForums = [
-  {
-    id: '1',
-    title: 'Cách trồng cây',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png', // Placeholder image
-    timestamp: 'May 24, 2025, 3:00 PM',
-  },
-  {
-    id: '2',
-    title: 'AI Ethics Discussion',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 2:30 PM',
-  },
-  {
-    id: '3',
-    title: 'Favorite Coding Tools in 2025',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 1:15 PM',
-  },
-  {
-    id: '4',
-    title: 'Future of Remote Work',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 10:00 AM',
-  },
-];
+// const initialForums = [
+//   {
+//     id: '1',
+//     title: 'Cách trồng cây',
+//     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png', // Placeholder image
+//     timestamp: 'May 24, 2025, 3:00 PM',
+//   },
+//   {
+//     id: '2',
+//     title: 'AI Ethics Discussion',
+//     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
+//     timestamp: 'May 24, 2025, 2:30 PM',
+//   },
+//   {
+//     id: '3',
+//     title: 'Favorite Coding Tools in 2025',
+//     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
+//     timestamp: 'May 24, 2025, 1:15 PM',
+//   },
+//   {
+//     id: '4',
+//     title: 'Future of Remote Work',
+//     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
+//     timestamp: 'May 24, 2025, 10:00 AM',
+//   },
+// ];
 
 const ForumList = ({ navigation, maxItems }) => {
-  const [forumList, setForumList] = useState(initialForums);
-  const [forumShowed, setForumShowed] = useState(initialForums);
+  const [forumList, setForumList] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchForum = () => {
-  //     try {
-  //       // setForumList(forumRes.data);
-  //       // Handle limiting the number of items
-  //       if (maxItems) {
-  //         const contentLength = Math.min(forumList.length, maxItems);
-  //         setForumShowed(forumList.slice(0, contentLength));
-  //       } else {
-  //         setForumShowed(forumList);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchForum();
-  // },);
+  useEffect(() => {
+
+  }, []);
 
   return (
     <View className="w-full flex flex-row justify-between flex-wrap">
-      {forumShowed && forumShowed.map((data, index) => (
+      {forumList && forumList.map((data, index) => (
         <TouchableOpacity
           onPress={() => {
-            console.log("ASDASDASD");
             navigation.navigate('Post');
           }}
           className="w-full sm:w-[48%]"

@@ -72,9 +72,9 @@ function App() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Schedule" component={ScheduleScreen} />
-        <Stack.Screen name="ScheduleDetails" component={ScheduleDetails}/>
+        <Stack.Screen name="ScheduleDetails" component={ScheduleDetails} />
         <Stack.Screen name="AddSchedule" component={AddScheduleScreen} />
-        <Stack.Screen name="ViewSensor" component={SensorsScreen} />
+        <Stack.Screen name="Sensor" component={SensorsScreen} />
         <Stack.Screen name="AddSensor" component={AddSensorScreen} />
         <Stack.Screen name="Forum" component={ForumScreen} />
         <Stack.Screen name="Post" component={PostScreen} />

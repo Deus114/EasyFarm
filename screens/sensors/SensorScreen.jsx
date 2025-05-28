@@ -35,24 +35,24 @@ export default function SensorsScreen({ navigation }) {
     const fetchUserID = async () => {
       try {
         let accountRes = await authAccountApi();
-              console.log("Account", accountRes, accountRes?.statusCode)
-              if (accountRes && accountRes?.statusCode == 200) {
-                  let userId = accountRes.data.user.id;
-                  console.log("User ID", userId)
-                  try {
-                      let sensorRes = await sensorsApi(userId);
-                      console.log("Sensor", sensorRes)
-                      if (sensorRes && sensorRes?.statusCode == 200) {
-                          setSensors(sensorRes.data);
-                      }
-                  } catch (error) {
-                      throw error;
-                    }
-              }
+        console.log("Account", accountRes, accountRes?.statusCode)
+        if (accountRes && accountRes?.statusCode == 200) {
+          let userId = accountRes.data.user.id;
+          console.log("User ID", userId)
+          try {
+            let sensorRes = await sensorsApi(userId);
+            console.log("Sensor", sensorRes)
+            if (sensorRes && sensorRes?.statusCode == 200) {
+              setSensors(sensorRes.data);
+            }
           } catch (error) {
             throw error;
           }
+        }
+      } catch (error) {
+        throw error;
       }
+    }
     setLoading(true);
     fetchUserID();
     setLoading(false);
@@ -133,10 +133,10 @@ export default function SensorsScreen({ navigation }) {
                       <Icon
                         name={
                           selectedSensor.type === 'TEMPERATURE' ? 'thermometer-outline'
-                        : selectedSensor.type === 'HUMIDITY' ? 'water-outline'
-                        : selectedSensor.type === 'LIGHT' ? 'sunny-outline'
-                        : selectedSensor.type === 'GPS' ? 'location-outline'
-                        : 'help-circle-outline'
+                            : selectedSensor.type === 'HUMIDITY' ? 'water-outline'
+                              : selectedSensor.type === 'LIGHT' ? 'sunny-outline'
+                                : selectedSensor.type === 'GPS' ? 'location-outline'
+                                  : 'help-circle-outline'
                         }
                         size={20}
                         color="#4CAF50"
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4CAF50',
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: 50,
     marginBottom: 20,
   },
   searchContainer: {

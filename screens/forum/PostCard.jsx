@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 const PostCard = ({ post, navigation }) => {
+  console.log(post)
   const handlePress = () => {
     navigation.navigate('DetailedPost', { postId: post.id }); // Use id
   };

@@ -44,7 +44,6 @@ const OnboardingScreen = ({ navigation }) => {
         });
     };
 
-
     return (
         <View style={styles.container}>
             {/* Fixed Title */}

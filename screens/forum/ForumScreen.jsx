@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,36 +8,28 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ForumThreadCard from './ForumThreadCard';
-
-// Hardcoded forum thread data
-const hardcodedThreads = [
-  {
-    id: '1',
-    title: 'Cách trồng cây',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 3:00 PM',
-  },
-  {
-    id: '2',
-    title: 'AI Ethics Discussion',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 2:30 PM',
-  },
-  {
-    id: '3',
-    title: 'Favorite Coding Tools in 2025',
-    img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
-    timestamp: 'May 24, 2025, 1:15 PM',
-  },
-];
+import { getAllPostsApi } from '../../service/apiService';
+import PostCard from './PostCard';
 
 export default function ForumScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [posts, setPosts] = useState([]);
 
-  const filteredThreads = hardcodedThreads.filter(thread =>
-    thread.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchPost = async () => {
+      const postData = await getAllPostsApi();
+      if (postData && postData?.data) {
+        setPosts[postData.data];
+      }
+    };
+    fetchPost();
+  }, []);
+
+  const handleAddPress = () => {
+    // Add functionality for the "Add" button here
+    console.log('Add button pressed');
+    navigation.navigate('AddPost');
+  };
 
   return (
     <View style={styles.container}>
@@ -55,20 +47,30 @@ export default function ForumScreen({ navigation }) {
             onChangeText={setSearchQuery}
           />
         </View>
-        <TouchableOpacity>
-          <Icon name="settings-outline" size={24} color="#4CAF50" />
+        <TouchableOpacity onPress={handleAddPress} style={styles.addButton}>
+          <Icon name="add-outline" size={30} color="#4CAF50" />
         </TouchableOpacity>
       </View>
 
-      {/* Forum Threads List */}
-      <ScrollView style={styles.scrollView}>
-        {filteredThreads.map(thread => (
-          <ForumThreadCard
-            thread={thread}
-            navigation={navigation}
-          />
-        ))}
-      </ScrollView>
+      {posts.length > 0 ? (
+        <ScrollView style={styles.scrollView}>
+          <Text>1</Text>
+          {posts.map((post, index) => (
+            <View style={styles.threadContentContainer}
+              key={index}
+            >
+              <Text>{post.content}</Text>
+              <PostCard
+                post={post}
+                navigation={navigation}
+              />
+            </View>
+          ))}
+        </ScrollView>
+      ) : (
+        <View>
+        </View>
+      )}
     </View>
   );
 }
@@ -112,5 +114,24 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingHorizontal: 16,
+  },
+  threadContentContainer: {
+    backgroundColor: '#E0F7E0',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 5,
+  },
+  threadContent: {
+    fontSize: 16,
+    color: '#666',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: '#888',
   },
 });

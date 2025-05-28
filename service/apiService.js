@@ -61,7 +61,7 @@ export const notificationsAPI = () => {
 }
 
 export const postScheduleApi = (data) => {
-    return axios.post(`api/v1/schedules`,data);
+    return axios.post(`api/v1/schedules`, data);
 }
 
 export const pauseScheduleApi = (ID) => {
@@ -79,11 +79,11 @@ export const deleteScheduleApi = (ID) => {
 export const addSensorApi = (name, serialNumber, img, type, description, userID) => {
     // console.log("Post", name, serialNumber, img, type, description, userID);
     return axios.post(`api/v1/sensors`, {
-        name: name, 
-        serialNumber: serialNumber, 
-        img: img, 
-        type: type, 
-        description: description, 
+        name: name,
+        serialNumber: serialNumber,
+        img: img,
+        type: type,
+        description: description,
         userId: userID
     });
 }

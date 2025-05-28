@@ -15,7 +15,7 @@ import { authAccountApi, addSensorApi } from '../../service/apiService';
 
 // Hardcoded sensor data
 const hardcodedSensors = [
-{
+  {
     description: 'DHT20',
     name: 'DHT20',
     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
@@ -25,8 +25,8 @@ const hardcodedSensors = [
     temperatureRange: '-40 to 80°C',
     humidityRange: '0-100% RH',
     accuracy: '±0.5°C / ±3% RH',
-},
-{
+  },
+  {
     description: 'LIGHT',
     name: 'Light Sensor',
     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
@@ -36,8 +36,8 @@ const hardcodedSensors = [
     temperatureRange: '-40 to 80°C',
     humidityRange: '0-100% RH',
     accuracy: '±0.5°C / ±3% RH',
-},
-{
+  },
+  {
     description: 'GPS',
     name: 'AT6668',
     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
@@ -47,8 +47,8 @@ const hardcodedSensors = [
     temperatureRange: '-40 to 80°C',
     humidityRange: '0-100% RH',
     accuracy: '±0.5°C / ±3% RH',
-},
-{
+  },
+  {
     description: 'ASDFGHJKL',
     name: 'Humidity Sensor',
     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
@@ -58,7 +58,7 @@ const hardcodedSensors = [
     temperatureRange: '-40 to 80°C',
     humidityRange: '0-100% RH',
     accuracy: '±0.5°C / ±3% RH',
-},
+  },
 ];
 
 export default function AddSensorScreen() {
@@ -71,16 +71,16 @@ export default function AddSensorScreen() {
 
   useEffect(() => {
     const fetchUserID = async () => {
-        try {
-            let accountRes = await authAccountApi();
-            console.log("Account", accountRes, accountRes?.statusCode)
-            if (accountRes && accountRes?.statusCode == 200) {
-                setUserId(accountRes.data.user.id);
-                console.log("User ID", userId)
-            }
-        } catch (error) {
-            throw error;
+      try {
+        let accountRes = await authAccountApi();
+        console.log("Account", accountRes, accountRes?.statusCode)
+        if (accountRes && accountRes?.statusCode == 200) {
+          setUserId(accountRes.data.user.id);
+          console.log("User ID", userId)
         }
+      } catch (error) {
+        throw error;
+      }
     }
     fetchUserID();
   }, []);
@@ -99,12 +99,12 @@ export default function AddSensorScreen() {
       sensorToAdd = {
         description: selectedSensor.description,
         img: selectedSensor.img,
-        name: customName? customName.trim() : selectedSensor.name,
+        name: customName ? customName.trim() : selectedSensor.name,
         serialNumber: "123456",
         status: 'ACTIVE',
         type: selectedSensor.type,
       }
-      console.log('Adding sensor:', { ...sensorToAdd});
+      console.log('Adding sensor:', { ...sensorToAdd });
       // Here you would typically add the sensor to a state or send it to an API
       // name, serialNumber, img, type, description, userID
       let res = await addSensorApi(
@@ -118,7 +118,7 @@ export default function AddSensorScreen() {
       console.log("Gay", res);
       closeModal();
       if (res && res?.statusCode == 201) {
-        navigation.navigate('ViewSensor');
+        navigation.navigate('Sensor');
       } else setError(res?.message);
     }
   };
@@ -146,9 +146,9 @@ export default function AddSensorScreen() {
 
       {/* Sensors List */}
       <ScrollView style={styles.scrollView}>
-        {filteredSensors.map(sensor => (
+        {filteredSensors.map((sensor, index) => (
           <AddSensorCard
-            key={sensor.id}
+            key={index}
             sensor={sensor}
             onPress={setSelectedSensor}
           />
@@ -156,7 +156,7 @@ export default function AddSensorScreen() {
       </ScrollView>
 
       {/* Modal Overlay */}
-<Modal
+      <Modal
         visible={!!selectedSensor}
         transparent={true}
         animationType="fade"
@@ -202,10 +202,10 @@ export default function AddSensorScreen() {
                       <Icon
                         name={
                           selectedSensor.type === 'TEMPERATURE' ? 'thermometer-outline'
-                        : selectedSensor.type === 'HUMIDITY' ? 'water-outline'
-                        : selectedSensor.type === 'LIGHT' ? 'sunny-outline'
-                        : selectedSensor.type === 'GPS' ? 'location-outline'
-                        : 'help-circle-outline'
+                            : selectedSensor.type === 'HUMIDITY' ? 'water-outline'
+                              : selectedSensor.type === 'LIGHT' ? 'sunny-outline'
+                                : selectedSensor.type === 'GPS' ? 'location-outline'
+                                  : 'help-circle-outline'
                         }
                         size={20}
                         color="#4CAF50"
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4CAF50',
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: 50,
     marginBottom: 20,
   },
   searchContainer: {

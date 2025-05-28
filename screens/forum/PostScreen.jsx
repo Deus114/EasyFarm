@@ -5,26 +5,26 @@ import { getAllPostsApi } from '../../service/apiService';
 import PostCard from './PostCard';
 
 const initialPosts = [
-    {
-      id: 1,
-      title: 'Best Practices for Tech Startups',
-      content: 'Starting a tech company in 2025 can be challenging. What strategies have worked for you? I’ve been focusing on agile development and customer feedback loops, but I’d love to hear other perspectives. For example, how do you balance innovation with financial stability in the early stages? What tools do you use for project management?',
-    },
-    {
-      id: 2,
-      title: 'AI Ethics Discussion',
-      content: 'With AI becoming more integrated into daily life, how do we ensure ethical usage? I’m particularly concerned about privacy and bias in machine learning models. Thoughts? Should there be global regulations, or should it be handled at a company level? What are some practical steps we can take?',
-    },
-    {
-      id: 3,
-      title: 'Favorite Coding Tools in 2025',
-      content: 'What tools are you using for development this year? I’ve been loving the latest VS Code updates and some new AI-powered debugging tools. Share your favorites! I’m also curious about any new frameworks that have gained popularity in 2025.',
-    },
-    {
-      id: 4,
-      title: 'Future of Remote Work',
-      content: 'How will remote work evolve in the coming years? With advancements in VR and AI, do you think we’ll see fully virtual offices? What challenges do you foresee? I think collaboration tools will need to improve significantly to support this shift.',
-    },
+  {
+    id: 1,
+    title: 'Best Practices for Tech Startups',
+    content: 'Starting a tech company in 2025 can be challenging. What strategies have worked for you? I’ve been focusing on agile development and customer feedback loops, but I’d love to hear other perspectives. For example, how do you balance innovation with financial stability in the early stages? What tools do you use for project management?',
+  },
+  {
+    id: 2,
+    title: 'AI Ethics Discussion',
+    content: 'With AI becoming more integrated into daily life, how do we ensure ethical usage? I’m particularly concerned about privacy and bias in machine learning models. Thoughts? Should there be global regulations, or should it be handled at a company level? What are some practical steps we can take?',
+  },
+  {
+    id: 3,
+    title: 'Favorite Coding Tools in 2025',
+    content: 'What tools are you using for development this year? I’ve been loving the latest VS Code updates and some new AI-powered debugging tools. Share your favorites! I’m also curious about any new frameworks that have gained popularity in 2025.',
+  },
+  {
+    id: 4,
+    title: 'Future of Remote Work',
+    content: 'How will remote work evolve in the coming years? With advancements in VR and AI, do you think we’ll see fully virtual offices? What challenges do you foresee? I think collaboration tools will need to improve significantly to support this shift.',
+  },
 ];
 
 export default function PostScreen({ navigation }) {
@@ -35,10 +35,10 @@ export default function PostScreen({ navigation }) {
       try {
         const postData = await getAllPostsApi();
         if (postData && postData?.status == 200) {
-            console.log("Fetch post data success");
-            // if (postData.data.size() > 0) {
-            //     setPosts(postData.data);
-            // }
+          console.log("Fetch post data success");
+          // if (postData.data.size() > 0) {
+          //     setPosts(postData.data);
+          // }
         }
       } catch (error) {
         console.error('Error fetching post details:', error);
@@ -69,14 +69,14 @@ export default function PostScreen({ navigation }) {
       {/* Thread Content */}
       {posts ? (
         <ScrollView style={styles.scrollView}>
-            {posts.map(post => (
-                <View style={styles.threadContentContainer}>
-                    <PostCard 
-                      post={post}
-                      navigation={navigation}
-                    />
-                </View>
-            ))}
+          {posts.map(post => (
+            <View style={styles.threadContentContainer}>
+              <PostCard
+                post={post}
+                navigation={navigation}
+              />
+            </View>
+          ))}
         </ScrollView>
       ) : (
         <View style={styles.loadingContainer}>

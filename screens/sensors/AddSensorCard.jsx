@@ -9,13 +9,13 @@ const AddSensorCard = ({ sensor, onPress }) => {
     LIGHT: 'sunny-outline',
     GPS: 'location-outline',
   };
-  
+
   const getTypeIcon = () => {
     return <Icon name={icons[sensor.type] || 'help-circle-outline'} size={20} color="#4CAF50" style={styles.typeIcon} />;
   };
-  
+
   return (
-    <TouchableOpacity onPress={() => {console.log("A"); onPress(sensor)}}>
+    <TouchableOpacity onPress={() => { console.log("A"); onPress(sensor) }}>
       <View style={styles.sensorCard}>
         <Image source={{ uri: sensor.img }} style={styles.sensorImage} />
         <View style={styles.sensorInfo}>
@@ -23,7 +23,7 @@ const AddSensorCard = ({ sensor, onPress }) => {
           <View style={styles.sensorTypes}>{getTypeIcon()}</View>
         </View>
       </View>
-    </TouchableOpacity> 
+    </TouchableOpacity>
   );
 };
 
