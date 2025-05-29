@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 const Categories = ({ navigation }) => {
-    const categories = ['Sensor', 'Schedule', 'Forum']; // 'Overall'
+    const categories = ['Sensor', 'Schedule', 'Post']; // 'Overall'
     const icons = ['analytics-outline', 'build', 'calendar', 'text']
     return (
         <>
