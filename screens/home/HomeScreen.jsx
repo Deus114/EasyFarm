@@ -36,7 +36,7 @@ export default function HomeScreen({ navigation }) {
         <SafeAreaView className='flex-1'>
             <View className='w-full h-full'>
                 <Background />
-                <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation} />
+                <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation} logout={true} />
 
                 <ScrollView className='flex px-4 mt-[90px] z-10'>
                     {/* Categories */}
