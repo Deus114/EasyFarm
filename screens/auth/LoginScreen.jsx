@@ -9,12 +9,12 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    
-    useEffect(()=>{
-        AsyncStorage.setItem('token',null);
+
+    useEffect(() => {
+        AsyncStorage.setItem('token', null);
         setEmail('user@gmail.com');
         setPassword('123456');
-    },[]);
+    }, []);
     const onSubmit = async () => {
         if (!email || !password) {
             setError('Email và mật khẩu là bắt buộc');

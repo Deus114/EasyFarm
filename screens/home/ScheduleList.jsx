@@ -69,32 +69,32 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
             </View>
           </TouchableOpacity>
         ))}
-      </View>
-      {!maxItems && <View className='h-[50px] mx-auto flex-row'>
-        <TouchableOpacity onPress={() => {
-          if (page > 1) {
-            setPage(page - 1);
-            onPageChange(page - 1);
-          }
-        }}>
-          <Icon name="arrow-back-circle" size={50} className='mx-[10px]' color="#4CAF50" />
-        </TouchableOpacity>
-        <View className='h-[50px] w-[50px] rounded-full bg-[#DFF1E6] mx-[10px]'>
-          <Text className='text-[26px] font-semibold text-black text-center my-auto'>{page}</Text>
-        </View>
-        <Text className='text-[26px] font-semibold text-black text-center my-auto'>/</Text>
-        {maxPage && <View className='h-[50px] w-[50px] rounded-full bg-[#4CAF50] mx-[10px]'>
-          <Text className='text-[26px] font-semibold text-white text-center my-auto'>{maxPage}</Text>
+        {!maxItems && <View className='h-[50px] mx-auto flex-row'>
+          <TouchableOpacity onPress={() => {
+            if (page > 1) {
+              setPage(page - 1);
+              onPageChange(page - 1);
+            }
+          }}>
+            <Icon name="arrow-back-circle" size={50} className='mx-[10px]' color="#4CAF50" />
+          </TouchableOpacity>
+          <View className='h-[50px] w-[50px] rounded-full bg-[#DFF1E6] mx-[10px]'>
+            <Text className='text-[26px] font-semibold text-black text-center my-auto'>{page}</Text>
+          </View>
+          <Text className='text-[26px] font-semibold text-black text-center my-auto'>/</Text>
+          {maxPage && <View className='h-[50px] w-[50px] rounded-full bg-[#4CAF50] mx-[10px]'>
+            <Text className='text-[26px] font-semibold text-white text-center my-auto'>{maxPage}</Text>
+          </View>}
+          <TouchableOpacity onPress={() => {
+            if (page < maxPage) {
+              setPage(page + 1);
+              onPageChange(page + 1);
+            }
+          }}>
+            <Icon name="arrow-forward-circle" size={50} className='mx-[10px]' color="#4CAF50" />
+          </TouchableOpacity>
         </View>}
-        <TouchableOpacity onPress={() => {
-          if (page < maxPage) {
-            setPage(page + 1);
-            onPageChange(page + 1);
-          }
-        }}>
-          <Icon name="arrow-forward-circle" size={50} className='mx-[10px]' color="#4CAF50" />
-        </TouchableOpacity>
-      </View>}
+      </View>
     </>
   )
 }
