@@ -25,7 +25,13 @@ const AddScheduleScreen = ({ navigation }) => {
   const [hour, setHour] = useState('00');
   const [minute, setMinute] = useState('00');
   const [repeatDays, setrepeatDays] = useState([]);
+  const [error, setError] = useState(null);
   const onSubmit = async () => {
+    if(title == '' || description == '') 
+      {
+        setError('Title and Description must be filled!')
+        return;
+      }
     let data = {
       "userId": parseInt(await AsyncStorage.getItem('userID')),
       "title": title,
@@ -82,6 +88,7 @@ const AddScheduleScreen = ({ navigation }) => {
               return <Monthly onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} onDateChange={setrepeatDays} />;
           }
         })()}
+        {error && <Text className='text-[#ef4444] mb-12 text-[20px] font-semibold'>{error}</Text>}
         <View className='w-full justify-end flex-row'>
           <TouchableOpacity className='bg-[#16a34a] py-[12px] rounded-lg mt-[16px] mr-[24px] px-[20px]' onPress={() => onSubmit()}>
             <Text className='text-[26px] font-semibold text-white'>Submit</Text>
