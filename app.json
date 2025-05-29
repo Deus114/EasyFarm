@@ -33,6 +33,11 @@
           "url": "https://sentry.io/"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "344ea1ee-7bd2-4816-b594-4543d1f8d68f"
+      }
+    }
   }
 }
