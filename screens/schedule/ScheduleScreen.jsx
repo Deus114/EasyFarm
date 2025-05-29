@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
@@ -15,11 +16,11 @@ import { authAccountApi } from '../../service/apiService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScheduleScreen = ({ navigation }) => {
   const [filter, setFilter] = useState('');
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState("");
   useEffect(() => {
     const fetchUserID = async () => {
       try {
-        id = await AsyncStorage.getItem('userID', userId);
+        let id = await AsyncStorage.getItem('userID');
         setUserId(id);
       } catch (error) {
         throw error;
@@ -29,18 +30,20 @@ const ScheduleScreen = ({ navigation }) => {
   }, []);
   return (
     <>
-      <View className='w-full h-full'>
-        <Background />
-        <EFHeader name={"Schedules"} navigation={navigation} />
-        <ScrollView className='flex px-4 mt-[90px] h-full z-10' style={{ flex: 1 }}>
-          {userId && <ScheduleList userId={userId} navigation={navigation} />}
-        </ScrollView>
-        <View className='bottom-[40px] right-[40px] fixed z-20'>
-          <TouchableOpacity onPress={() => navigation.navigate('AddSchedule')}>
-            <Icon className='ml-auto' name="add-circle" size={50} color="#4CAF50" />
-          </TouchableOpacity>
+      <SafeAreaView className='flex-1'>
+        <View className='w-full h-full'>
+          <Background />
+          <EFHeader name={"Schedules"} navigation={navigation} />
+          <ScrollView className='flex px-4 mt-[90px] h-full z-10' style={{ flex: 1 }}>
+            {userId && <ScheduleList userId={userId} navigation={navigation} />}
+          </ScrollView>
+          <View className='bottom-[40px] right-[40px] fixed z-20'>
+            <TouchableOpacity onPress={() => navigation.navigate('AddSchedule')}>
+              <Icon className='ml-auto' name="add-circle" size={50} color="#4CAF50" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </>
 
 
