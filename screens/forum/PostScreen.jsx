@@ -1,51 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getAllPostsApi } from '../../service/apiService';
 import PostCard from './PostCard';
-
-const initialPosts = [
-  {
-    id: 1,
-    title: 'Best Practices for Tech Startups',
-    content: 'Starting a tech company in 2025 can be challenging. What strategies have worked for you? I’ve been focusing on agile development and customer feedback loops, but I’d love to hear other perspectives. For example, how do you balance innovation with financial stability in the early stages? What tools do you use for project management?',
-  },
-  {
-    id: 2,
-    title: 'AI Ethics Discussion',
-    content: 'With AI becoming more integrated into daily life, how do we ensure ethical usage? I’m particularly concerned about privacy and bias in machine learning models. Thoughts? Should there be global regulations, or should it be handled at a company level? What are some practical steps we can take?',
-  },
-  {
-    id: 3,
-    title: 'Favorite Coding Tools in 2025',
-    content: 'What tools are you using for development this year? I’ve been loving the latest VS Code updates and some new AI-powered debugging tools. Share your favorites! I’m also curious about any new frameworks that have gained popularity in 2025.',
-  },
-  {
-    id: 4,
-    title: 'Future of Remote Work',
-    content: 'How will remote work evolve in the coming years? With advancements in VR and AI, do you think we’ll see fully virtual offices? What challenges do you foresee? I think collaboration tools will need to improve significantly to support this shift.',
-  },
-];
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function PostScreen({ navigation }) {
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const postData = await getAllPostsApi();
-        if (postData && postData?.status == 200) {
-          console.log("Fetch post data success");
-          // if (postData.data.size() > 0) {
-          //     setPosts(postData.data);
-          // }
-        }
-      } catch (error) {
-        console.error('Error fetching post details:', error);
-      }
-    };
     fetchPost();
-  },);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchPost(); // gọi lại mỗi lần focus vào màn hình
+    }, [])
+  );
+
+  const fetchPost = async () => {
+    try {
+      const postData = await getAllPostsApi();
+      if (postData && postData?.data) {
+        console.log("Fetch post data success");
+        setPosts(postData.data);
+      }
+    } catch (error) {
+      console.error('Error fetching post details:', error);
+    }
+  };
 
   const handleAddPress = () => {
     // Add functionality for the "Add" button here
@@ -54,36 +37,40 @@ export default function PostScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header with Back Button and Add Button */}
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
-        </TouchableOpacity>
-        <Text style={styles.header}>Thread Details</Text>
-        <TouchableOpacity onPress={handleAddPress} style={styles.addButton}>
-          <Icon name="add-outline" size={30} color="#4CAF50" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Thread Content */}
-      {posts ? (
-        <ScrollView style={styles.scrollView}>
-          {posts.map(post => (
-            <View style={styles.threadContentContainer}>
-              <PostCard
-                post={post}
-                navigation={navigation}
-              />
-            </View>
-          ))}
-        </ScrollView>
-      ) : (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Loading...</Text>
+    <SafeAreaView className='flex-1'>
+      <View className='w-full h-full top-[40px] z-30'>
+        {/* Header with Back Button and Add Button */}
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
+          </TouchableOpacity>
+          <Text style={styles.header}>Post</Text>
+          <TouchableOpacity onPress={handleAddPress} style={styles.addButton}>
+            <Icon name="add-outline" size={30} color="#4CAF50" />
+          </TouchableOpacity>
         </View>
-      )}
-    </View>
+
+        {/* Thread Content */}
+        {posts ? (
+          <ScrollView style={styles.scrollView}>
+            {posts.map((post, index) => (
+              <View style={styles.threadContentContainer}
+                key={index}
+              >
+                <PostCard
+                  post={post}
+                  navigation={navigation}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 

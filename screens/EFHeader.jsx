@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { notificationsAPI } from '../service/apiService';
+import { CommonActions } from '@react-navigation/native';
 
-const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation }) => {
+const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logout }) => {
   const [notificationOn, setNotifications] = useState(false);
   const [search, setSearch] = useState('');
   const [notificationData, setNotificationData] = useState([]);
@@ -36,10 +37,26 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation }) =>
       <View className='fixed w-full top-[40px] z-30'>
         <View className='flex-row justify-between items-center mt-[10px] mb-[-20px] mx-[20px]'>
           <Text className='text-[26px] font-bold text-[#4CAF50]'>{name}</Text>
-          <TouchableOpacity onPress={() => setNotifications(!notificationOn)} className='bg-green-100 rounded-full'>
-            <Icon name="notifications-outline" size={40} color="#4CAF50" />
-            {(notificationData.length != 0) && <Text className='fixed bg-white rounded-full font-semibold w-[20px] h-[20px] text-[15px] text-center text-red-500'>{notificationData.length}</Text>}
-          </TouchableOpacity>
+          <View className='flex-row'>
+            <TouchableOpacity
+              onPress={() => setNotifications(!notificationOn)}
+              className='bg-green-100 rounded-full mr-[20px]'
+            >
+              <Icon name="notifications-outline" size={40} color="#4CAF50" />
+              {(notificationData.length != 0) && <Text className='fixed bg-white rounded-full font-semibold w-[20px] h-[20px] text-[15px] text-center text-red-500'>{notificationData.length}</Text>}
+            </TouchableOpacity>
+            {logout && <TouchableOpacity onPress={() => {
+              navigation.navigate('Login');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'Login' }],
+                })
+              );
+            }} className='bg-green-100 rounded-full'>
+              <Icon name="log-out-outline" size={40} color="#4CAF50" />
+            </TouchableOpacity>}
+          </View>
         </View>
         <View className='flex-row w-full justify-between'>
           {inputOn &&
@@ -60,7 +77,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation }) =>
             </>
           }
           {notificationOn &&
-            <View className='w-[50%] fixed right-[0px]'>
+            <View className='w-[50%] fixed right-[0px] top-[100px]'>
               {notificationData.length === 0 ? (
                 <View className='w-full ml-auto border-b bg-[#4CAF50] h-[50px] rounded-xl p-[5px]'>
                   <Text className='font-semibold'>Hiện tại không có thông báo nào!</Text>
