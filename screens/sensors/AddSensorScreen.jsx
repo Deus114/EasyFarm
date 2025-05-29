@@ -215,7 +215,7 @@ export default function AddSensorScreen() {
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity style={styles.addButton} onPress={handleAddSensor}>
-                    Add This Sensor
+                    <Text>Add This Sensor</Text>
                   </TouchableOpacity>
                 </View>
               </>

@@ -31,10 +31,10 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
   return (
     <>
       {notificationOn &&
-        <View className='fixed w-full h-full bg-gray-800/50 z-20'>
+        <View className='fixed w-full h-full bg-gray-800 z-20' style={{ opacity: 0.5 }}>
         </View>
       }
-      <View className='fixed w-full top-[40px] z-30'>
+      <View className='absolute w-full top-[40px] z-30'>
         <View className='flex-row justify-between items-center mt-[10px] mb-[-20px] mx-[20px]'>
           <Text className='text-[26px] font-bold text-[#4CAF50]'>{name}</Text>
           <View className='flex-row'>
@@ -43,7 +43,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
               className='bg-green-100 rounded-full mr-[20px]'
             >
               <Icon name="notifications-outline" size={40} color="#4CAF50" />
-              {(notificationData.length != 0) && <Text className='fixed bg-white rounded-full font-semibold w-[20px] h-[20px] text-[15px] text-center text-red-500'>{notificationData.length}</Text>}
+              {(notificationData.length != 0) && <Text className='absolute bg-white rounded-full font-semibold w-[20px] h-[20px] text-[15px] text-center text-red-500'>{notificationData.length}</Text>}
             </TouchableOpacity>
             {logout && <TouchableOpacity onPress={() => {
               navigation.navigate('Login');
@@ -77,7 +77,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
             </>
           }
           {notificationOn &&
-            <View className='w-[50%] fixed right-[0px] top-[100px]'>
+            <View className='w-[50%] absolute right-[0px] top-[30px]'>
               {notificationData.length === 0 ? (
                 <View className='w-full ml-auto border-b bg-[#4CAF50] h-[50px] rounded-xl p-[5px]'>
                   <Text className='font-semibold'>Hiện tại không có thông báo nào!</Text>
@@ -85,7 +85,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
               ) : (
                 notificationData.map((data, index) => (
                   <View key={index} className='w-full ml-auto border-b bg-[#4CAF50] h-[50px] rounded-xl p-[5px]'>
-                    <Text className='font-semibold'>{data}</Text>
+                    <Text className='font-semibold'>{data.description}</Text>
                   </View>
                 ))
               )}
