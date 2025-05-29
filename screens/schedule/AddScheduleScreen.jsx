@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import ScheduleList from '../home/ScheduleList';
 import EFHeader from '../EFHeader';
@@ -27,11 +29,10 @@ const AddScheduleScreen = ({ navigation }) => {
   const [repeatDays, setrepeatDays] = useState([]);
   const [error, setError] = useState(null);
   const onSubmit = async () => {
-    if(title == '' || description == '') 
-      {
-        setError('Title and Description must be filled!')
-        return;
-      }
+    if (title == '' || description == '') {
+      setError('Title and Description must be filled!')
+      return;
+    }
     let data = {
       "userId": parseInt(await AsyncStorage.getItem('userID')),
       "title": title,
@@ -75,28 +76,58 @@ const AddScheduleScreen = ({ navigation }) => {
   return (
     <View className='w-full h-full'>
       <Background />
-      <EFHeader name={"Add Schedule"} navigation={navigation} />
-      <ScrollView className='flex px-4 h-full mt-[90px] z-10'>
-        <ChooseMode handleMode={setMode} />
-        {(() => {
-          switch (mode) {
-            case 'Day':
-              return <Daily onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} />;
-            case 'Week':
-              return <Weekly onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} onDateChange={setrepeatDays} />;
-            case 'Month':
-              return <Monthly onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} onDateChange={setrepeatDays} />;
-          }
-        })()}
-        {error && <Text className='text-[#ef4444] mb-12 text-[20px] font-semibold'>{error}</Text>}
-        <View className='w-full justify-end flex-row'>
-          <TouchableOpacity className='bg-[#16a34a] py-[12px] rounded-lg mt-[16px] mr-[24px] px-[20px]' onPress={() => onSubmit()}>
-            <Text className='text-[26px] font-semibold text-white'>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
+        </TouchableOpacity>
+        <Text style={styles.header}>YOUR SCHEDULES</Text>
+        <View style={{ width: 30 }} />
+      </View>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+        <ScrollView className='flex px-4 h-full mt-[20px] z-10'>
+          <ChooseMode handleMode={setMode} />
+          {(() => {
+            switch (mode) {
+              case 'Day':
+                return <Daily onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} />;
+              case 'Week':
+                return <Weekly onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} onDateChange={setrepeatDays} />;
+              case 'Month':
+                return <Monthly onTitleChange={setTitle} onDescriptionChange={setDescription} onHourChange={setHour} onMinuteChange={setMinute} onDateChange={setrepeatDays} />;
+            }
+          })()}
+          {error && <Text className='text-[#ef4444] mb-12 text-[20px] font-semibold'>{error}</Text>}
+          <View className='w-full justify-end flex-row'>
+            <TouchableOpacity className='bg-[#16a34a] py-[12px] rounded-lg mt-[16px] mr-[24px] px-[20px]' onPress={() => onSubmit()}>
+              <Text className='text-[26px] font-semibold text-white'>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Distribute space to position Add button on the right
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#4CAF50',
+    textAlign: 'center',
+    marginTop: 50,
+    marginBottom: 20,
+  },
+})
 
 export default AddScheduleScreen
