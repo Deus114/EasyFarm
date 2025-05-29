@@ -26,9 +26,9 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
           }
           else {
             contentLength = scheduleRes.data.length;
-            numbermaxPage = Math.ceil(contentLength / 10);
+            numbermaxPage = Math.ceil(contentLength / 5);
             setMaxPage(numbermaxPage);
-            setScheduleShowed(scheduleRes.data.slice(0, 10));
+            setScheduleShowed(scheduleRes.data.slice(0, 5));
             console.log(`showed ${numbermaxPage}`)
           }
         }
@@ -40,8 +40,8 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
   }, [])
   const onPageChange = async (pageIdx) => {
     console.log(pageIdx);
-    min = (pageIdx - 1) * 10;
-    max = scheduleList.length < (pageIdx * 10) ? scheduleList.length : pageIdx * 10;
+    min = (pageIdx - 1) * 5;
+    max = scheduleList.length < (pageIdx * 5) ? scheduleList.length : pageIdx * 5;
     console.log(`${min} ${max}`)
     await setScheduleShowed(scheduleList.slice(min, max));
   }
@@ -69,7 +69,9 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
             </View>
           </TouchableOpacity>
         ))}
-        {!maxItems && <View className='h-[50px] mx-auto flex-row'>
+        
+      </View>
+      {!maxItems && <View className='h-[50px] mx-auto flex-row'>
           <TouchableOpacity onPress={() => {
             if (page > 1) {
               setPage(page - 1);
@@ -94,7 +96,6 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
             <Icon name="arrow-forward-circle" size={50} className='mx-[10px]' color="#4CAF50" />
           </TouchableOpacity>
         </View>}
-      </View>
     </>
   )
 }
