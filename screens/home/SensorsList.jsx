@@ -1,42 +1,66 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import {
     View,
-    Text
+    Text,
+    Image,
 } from 'react-native';
 import { sensorsApi } from '../../service/apiService';
 
 const SensorsList = ({ userId, navigation }) => {
     const [sensorList, setSensorList] = useState([]);
+
     useEffect(() => {
         const fetchSensorID = async () => {
             try {
-                let sensorRes = await sensorsApi(userId);
-                console.log(sensorRes)
-                if (sensorRes && sensorRes?.statusCode == 200) {
-                    setSensorList(sensorRes.data);
+                const sensorRes = await sensorsApi(userId);
+                if (sensorRes?.statusCode === 200) {
+                    setSensorList(sensorRes.data.slice(0, 4)); // Giới hạn 4 phần tử
                 }
             } catch (error) {
-                throw error;
+                console.error(error);
             }
-        }
+        };
         fetchSensorID();
-    }, [])
-    return (
-        <View className='flex flex-row flex-wrap justify-between'>
-            {/* Sensor Items */}
-            {sensorList.map((data, index) => (
-                <View className='w-[48%] md:w-[30%] aspect-[4/5] border mb-2 bg-white' key={index}>
-                    <View className='w-full md:w-30% aspect-[16/13] bg-gray-200'>
+    }, []);
 
-                    </View>
-                    <View className="flex flex-row justify-between w-full p-2">
-                        <Text className='text-[#505050] text-[22px] font-semibold place-content-center'>{data.name}</Text>
-                        <Text className='text-gray-500 text-[22px] font-semibold underline-offset-1 place-content-center'>25°C</Text>
+    return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {sensorList.map((data, index) => (
+                <View
+                    key={index}
+                    style={{
+                        width: '48%',
+                        aspectRatio: 4 / 5,
+                        borderWidth: 1,
+                        borderColor: '#ccc',
+                        marginBottom: 8,
+                        backgroundColor: '#fff',
+                    }}
+                >
+                    <Image
+                        source={{ uri: data.img }}
+                        style={{
+                            width: '100%',
+                            aspectRatio: 16 / 13,
+                            backgroundColor: '#e5e5e5',
+                        }}
+                        resizeMode="cover"
+                        onError={(e) => {
+                            console.log('Image load error:', e.nativeEvent);
+                        }}
+                    />
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8 }}>
+                        <Text style={{ fontSize: 18, color: '#505050', fontWeight: '600' }}>
+                            {data.name}
+                        </Text>
+                        <Text style={{ fontSize: 18, color: '#888', fontWeight: '600' }}>
+                            25°C
+                        </Text>
                     </View>
                 </View>
             ))}
         </View>
-    )
-}
+    );
+};
 
-export default SensorsList
+export default SensorsList;

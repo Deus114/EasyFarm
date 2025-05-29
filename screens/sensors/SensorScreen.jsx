@@ -66,7 +66,14 @@ export default function SensorsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Text style={styles.header}>YOUR SENSORS</Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
+        </TouchableOpacity>
+        <Text style={styles.header}>YOUR SENSORS</Text>
+        <View style={{ width: 30 }} />
+      </View>
+
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
@@ -119,7 +126,7 @@ export default function SensorsScreen({ navigation }) {
                   </View>
                   <View style={styles.modalDetail}>
                     <Text style={styles.modalLabel}>Date Added:</Text>
-                    <Text style={styles.modalValue}>{selectedSensor.dateAdded}</Text>
+                    <Text style={styles.modalValue}>{new Date(selectedSensor.dateAdded).toLocaleDateString()}</Text>
                   </View>
                   <View style={styles.modalDetail}>
                     <Text style={styles.modalLabel}>Status:</Text>
@@ -157,6 +164,15 @@ export default function SensorsScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Distribute space to position Add button on the right
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -174,6 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     marginBottom: 20,
+    marginTop: 20
   },
   searchInputWrapper: {
     flex: 1,

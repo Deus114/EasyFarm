@@ -49,7 +49,7 @@ const hardcodedSensors = [
     accuracy: '±0.5°C / ±3% RH',
   },
   {
-    description: 'ASDFGHJKL',
+    description: 'Humidity',
     name: 'Humidity Sensor',
     img: 'https://docs.ohstem.vn/en/latest/_images/1.12.png',
     serialNumber: "123456",
@@ -61,7 +61,7 @@ const hardcodedSensors = [
   },
 ];
 
-export default function AddSensorScreen() {
+export default function AddSensorScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSensor, setSelectedSensor] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -95,8 +95,9 @@ export default function AddSensorScreen() {
   };
 
   const handleAddSensor = async () => {
+    console.log(selectedSensor)
     if (selectedSensor) {
-      sensorToAdd = {
+      let sensorToAdd = {
         description: selectedSensor.description,
         img: selectedSensor.img,
         name: customName ? customName.trim() : selectedSensor.name,
@@ -126,7 +127,13 @@ export default function AddSensorScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Text style={styles.header}>ADD SENSOR</Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
+        </TouchableOpacity>
+        <Text style={styles.header}>ADD SENSOR</Text>
+        <View style={{ width: 30 }} />
+      </View>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
@@ -150,7 +157,7 @@ export default function AddSensorScreen() {
           <AddSensorCard
             key={index}
             sensor={sensor}
-            onPress={setSelectedSensor}
+            onPress={() => setSelectedSensor(sensor)}
           />
         ))}
       </ScrollView>
@@ -215,7 +222,7 @@ export default function AddSensorScreen() {
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity style={styles.addButton} onPress={handleAddSensor}>
-                    <Text>Add This Sensor</Text>
+                    Add This Sensor
                   </TouchableOpacity>
                 </View>
               </>
@@ -227,10 +234,20 @@ export default function AddSensorScreen() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Distribute space to position Add button on the right
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
   header: {
     fontSize: 24,
@@ -245,6 +262,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     marginBottom: 20,
+    marginTop: 20,
   },
   searchInputWrapper: {
     flex: 1,
