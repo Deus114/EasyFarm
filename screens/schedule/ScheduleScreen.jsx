@@ -41,7 +41,7 @@ const ScheduleScreen = ({ navigation }) => {
             <Text style={styles.header}>YOUR SCHEDULES</Text>
             <View style={{ width: 30 }} />
           </View>
-          <ScrollView className='flex px-4 mt-[90px] h-full z-10' style={{ flex: 1 }}>
+          <ScrollView className='flex px-4 h-full z-10' style={{ flex: 1 }}>
             {userId && <ScheduleList userId={userId} navigation={navigation} />}
           </ScrollView>
           <View className='bottom-[160px] right-[40px] absolute z-20'>
