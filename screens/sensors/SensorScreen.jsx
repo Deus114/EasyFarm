@@ -100,7 +100,7 @@ export default function SensorsScreen({ navigation }) {
 
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSensor')}>
-        <Icon name="add" size={30} color="#fff" />
+        <Icon name="add-circle" size={30} color="#fff" />
       </TouchableOpacity>
 
       {/* Modal Overlay */}
