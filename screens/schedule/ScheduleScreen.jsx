@@ -10,18 +10,38 @@ import {
 import ScheduleList from '../home/ScheduleList';
 import Background from '../../components/common/Background';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authAccountApi } from '../../service/apiService';
 const ScheduleScreen = ({ navigation }) => {
   const [userId, setUserId] = useState("");
   useEffect(() => {
     const fetchUserID = async () => {
       try {
-        let id = await AsyncStorage.getItem('userID');
-        setUserId(id);
-        console.log(id);
-      } catch (error) {
-        throw error;
-      }
+              let accountRes = await authAccountApi();
+              console.log("Account", accountRes, accountRes?.statusCode)
+              if (accountRes && accountRes?.statusCode == 200) {
+                let userId = accountRes.data.user.id;
+                console.log("User ID", userId)
+                setUserId(userId);
+                // try {
+                //   let sensorRes = await sensorsApi(userId);
+                //   console.log("Sensor", sensorRes)
+                //   if (sensorRes && sensorRes?.statusCode == 200) {
+                //     setSensors(sensorRes.data);
+                //   }
+                // } catch (error) {
+                //   throw error;
+                // }
+              }
+            } catch (error) {
+              throw error;
+            }
+      // try {
+      //   let id = await AsyncStorage.getItem('userID');
+      //   setUserId(id);
+      //   console.log(id);
+      // } catch (error) {
+      //   throw error;
+      // }
     }
     fetchUserID();
   }, []);
