@@ -19,7 +19,7 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
         if (scheduleRes && scheduleRes?.statusCode == 200) {
           setscheduleList(scheduleRes.data);
           //Handle về page
-          if (maxItems) {
+          if (maxItems>0) {
             contentLength = scheduleRes.data.length;
             if (contentLength > maxItems) contentLength = maxItems
             setScheduleShowed(scheduleRes.data.slice(0, contentLength));
@@ -40,8 +40,9 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
   }, [])
   const onPageChange = async (pageIdx) => {
     console.log(pageIdx);
-    min = (pageIdx - 1) * 5;
-    max = scheduleList.length < (pageIdx * 5) ? scheduleList.length : pageIdx * 5;
+    let min = (pageIdx - 1) * 5;
+    console.log(min);
+    let max = scheduleList.length < (pageIdx * 5) ? scheduleList.length : pageIdx * 5;
     console.log(`${min} ${max}`)
     await setScheduleShowed(scheduleList.slice(min, max));
   }

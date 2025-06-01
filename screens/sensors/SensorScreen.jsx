@@ -100,7 +100,7 @@ export default function SensorsScreen({ navigation }) {
 
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSensor')}>
-        <Icon name="add-circle" size={30} color="#fff" />
+        <Icon className='ml-auto' name="add-circle" size={50} color="#4CAF50" />
       </TouchableOpacity>
 
       {/* Modal Overlay */}
@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 80,
     right: 16,
-    backgroundColor: '#4CAF50',
     width: 50,
     height: 50,
     borderRadius: 25,

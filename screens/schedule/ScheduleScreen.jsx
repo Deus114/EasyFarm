@@ -38,7 +38,7 @@ const ScheduleScreen = ({ navigation }) => {
             <View style={{ width: 30 }} />
           </View>
           <ScrollView className='flex px-4 h-full z-10' style={{ flex: 1 }}>
-            {userId && <ScheduleList userId={userId} navigation={navigation} />}
+            {userId && <ScheduleList userId={userId} navigation={navigation} maxItems={0} />}
           </ScrollView>
           <View className='bottom-[160px] right-[40px] absolute z-20'>
             <TouchableOpacity onPress={() => navigation.navigate('AddSchedule')}>
