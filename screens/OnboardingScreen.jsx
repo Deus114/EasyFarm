@@ -40,7 +40,7 @@ const OnboardingScreen = ({ navigation }) => {
         await AsyncStorage.setItem('hasLaunched', 'true');
         navigation.reset({
             index: 0,
-            routes: [{ name: 'Home' }],
+            routes: [{ name: 'Login' }],
         });
     };
 
