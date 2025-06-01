@@ -106,6 +106,7 @@ export default function AddSensorScreen({ navigation }) {
         type: selectedSensor.type,
       }
       console.log('Adding sensor:', { ...sensorToAdd });
+      console.log(userId);
       // Here you would typically add the sensor to a state or send it to an API
       // name, serialNumber, img, type, description, userID
       let res = await addSensorApi(

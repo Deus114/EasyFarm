@@ -67,7 +67,7 @@ const AddScheduleScreen = ({ navigation }) => {
       console.log(scheduleRes)
       if (scheduleRes && scheduleRes?.statusCode == 201) {
         console.log(scheduleRes.data.id);
-        navigation.navigate('Schedule')
+        navigation.navigate('Schedule');
       }
     } catch (error) {
       throw error;
@@ -78,7 +78,7 @@ const AddScheduleScreen = ({ navigation }) => {
       <Background />
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Schedule')}>
           <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
         </TouchableOpacity>
         <Text style={styles.header}>YOUR SCHEDULES</Text>

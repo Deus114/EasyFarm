@@ -24,7 +24,7 @@ export default function HomeScreen({ navigation }) {
                 console.log(accountRes)
                 if (accountRes && accountRes?.statusCode == 200) {
                     setUserId(accountRes.data.user.id);
-                    AsyncStorage.setItem('userID', uid);
+                    AsyncStorage.setItem('userID', accountRes.data.user.id);
                 }
             } catch (error) {
                 throw error;

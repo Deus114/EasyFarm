@@ -33,7 +33,7 @@ export default function AddPostScreen({ navigation }) {
 
       if (res && res?.data) {
         console.log('Post OK');
-        navigation.goBack();
+        navigation.navigate('Post');
       } else {
         setErrorMessage(res?.message || 'Failed to post. Please try again.');
       }
@@ -49,7 +49,7 @@ export default function AddPostScreen({ navigation }) {
         <ScrollView contentContainerStyle={{ paddingBottom: 40 }} style={{ marginTop: 40 }}>
           {/* Header */}
           <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.navigate('Post')}>
               <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
             </TouchableOpacity>
             <Text style={styles.header}>Add Post</Text>

@@ -41,7 +41,7 @@ export default function PostScreen({ navigation }) {
       <View className='w-full h-full top-[40px] z-30'>
         {/* Header with Back Button and Add Button */}
         <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
           </TouchableOpacity>
           <Text style={styles.header}>Post</Text>

@@ -84,7 +84,7 @@ const ScheduleDetails = ({ navigation, route }) => {
       <Background />
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Schedule')}>
           <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
         </TouchableOpacity>
         <Text style={styles.header}>SCHEDULE DETAIL</Text>

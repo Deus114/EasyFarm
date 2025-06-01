@@ -41,7 +41,7 @@ const DetailedPostScreen = ({ navigation, route }) => {
       <View style={styles.wrapper}>
         {/* Header */}
         <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('Post')}>
             <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
           </TouchableOpacity>
           <Text style={styles.header}>Post Detail</Text>
