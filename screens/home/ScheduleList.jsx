@@ -51,21 +51,26 @@ const ScheduleList = ({ userId, navigation, maxItems }) => {
       <View className='w-full flex flex-row justify-between flex-wrap'>
         {scheduleShowed && scheduleShowed.map((data, index) => (
           <TouchableOpacity onPress={() => navigation.navigate('ScheduleDetails', { id: data.id })} key={index} className='w-full sm:w-[48%]'>
-            <View className='w-full h-[120px] flex-row flex p-[10px] rounded-xl bg-[#DFF1E6] mb-2'>
-              <Text className='text-[20px] w-[40%] rounded-l-full font-semibold'>
-                {(() => {
-                  switch (data.repeatType) {
-                    case 'DAILY':
-                      return 'Mỗi ngày';
-                    case 'WEEKLY':
-                      return 'Mỗi tuần';
-                    case 'MONTHLY':
-                      return 'Mỗi tháng';
-                    default:
-                      return 'Unknown status';
-                  }
-                })()}
-              </Text>
+            <View className={`w-full h-[120px] flex-row flex p-[10px] rounded-xl mb-2 ${data.isActive ? 'bg-[#DFF1E6]' : 'bg-white'}`}>
+              <View className='w-[40%]'>
+                  <Text className='text-[20px] font-semibold'>
+                    {(() => {
+                      switch (data.repeatType) {
+                        case 'DAILY':
+                          return 'Mỗi ngày';
+                        case 'WEEKLY':r
+                          return 'Mỗi tuần';
+                        case 'MONTHLY':
+                          return 'Mỗi tháng';
+                        default:
+                          return 'Unknown status';
+                      }
+                    })()}
+                  </Text>
+                  <Text className='text-[10px] font-semibold'>
+                    {data.isActive? 'Active': 'Stopped'}
+                  </Text>
+              </View>
               <Text className='text-[15px] w-[60%] rounded-r-full font-semibold'>{data.description}</Text>
             </View>
           </TouchableOpacity>

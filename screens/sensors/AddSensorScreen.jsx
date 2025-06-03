@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import AddSensorCard from './AddSensorCard';
 import { authAccountApi, addSensorApi } from '../../service/apiService';
+import LoadingOverlay from '../../components/loading';
 
 // Hardcoded sensor data
 const hardcodedSensors = [
@@ -64,7 +65,7 @@ const hardcodedSensors = [
 export default function AddSensorScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSensor, setSelectedSensor] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [customName, setCustomName] = useState('');
   const [error, setError] = useState('')
   const [userId, setUserId] = useState(null);
@@ -93,8 +94,9 @@ export default function AddSensorScreen({ navigation }) {
     setSelectedSensor(null);
     setCustomName('');
   };
-
   const handleAddSensor = async () => {
+    setSelectedSensor(null);
+    setLoading(true);
     console.log(selectedSensor)
     if (selectedSensor) {
       let sensorToAdd = {
@@ -123,10 +125,12 @@ export default function AddSensorScreen({ navigation }) {
         navigation.navigate('Sensor');
       } else setError(res?.message);
     }
+    setLoading(false);
   };
 
   return (
     <View style={styles.container}>
+      <LoadingOverlay visible={loading}/>
       {/* Header */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -223,7 +227,7 @@ export default function AddSensorScreen({ navigation }) {
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity style={styles.addButton} onPress={handleAddSensor}>
-                    <Text>Add This Sensor</Text>
+                    <Text className= 'text-white font-semibold'>Add This Sensor</Text>
                   </TouchableOpacity>
                 </View>
               </>

@@ -87,7 +87,7 @@ const ScheduleDetails = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Schedule')}>
           <Icon name="arrow-back-outline" size={30} color="#4CAF50" />
         </TouchableOpacity>
-        <Text style={styles.header}>SCHEDULE DETAIL</Text>
+        <Text style={styles.header}>{data.title}</Text>
         <View style={{ width: 30 }} />
       </View>
       {data && <ScrollView className='flex px-4 h-full z-10'>

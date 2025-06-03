@@ -6,28 +6,52 @@ import {
   TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { notificationsAPI } from '../service/apiService';
+import { notificationsAPI, readNotiAPI } from '../service/apiService';
 import { CommonActions } from '@react-navigation/native';
 
 const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logout }) => {
   const [notificationOn, setNotifications] = useState(false);
   const [search, setSearch] = useState('');
   const [notificationData, setNotificationData] = useState([]);
+  const [refresh,setRefresh] = useState(false);
+  const fetchNotifications = async () => {
+    try {
+      let notificationsRes = await notificationsAPI(userId);
+      console.log(notificationsRes)
+      if (notificationsRes && notificationsRes?.statusCode == 200) {
+        setNotificationData(notificationsRes.data);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   useEffect(() => {
     console.log('abc');
-    const fetchNotifications = async () => {
-      try {
-        let notificationsRes = await notificationsAPI(userId);
-        console.log(notificationsRes)
-        if (notificationsRes && notificationsRes?.statusCode == 200) {
-          setNotificationData(notificationsRes.data);
-        }
-      } catch (error) {
-        throw error;
-      }
-    }
     fetchNotifications();
   }, [])
+  const setRead = async (notiID) => {
+    setRefresh(true);
+    try {
+      let readRes = await readNotiAPI(notiID);
+      console.log(readRes)
+        if (1) {
+          let tempdata = notificationData;
+          for (i =0; i < tempdata.length; i++)
+          {
+            if (tempdata[i].id == notiID) 
+              {
+                tempdata[i].isRead = true;
+                console.log(tempdata);
+                setNotificationData(tempdata);
+                break;
+              }
+          } 
+        }
+    } catch (error) {
+      throw error;
+    }
+    setRefresh(false);
+  }
   return (
     <>
       {notificationOn &&
@@ -67,7 +91,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
                 placeholderTextColor="#999"
                 value={search}
                 inlineImageLeft='search_icon'
-                onChangeText={(value) => { setSearch(value), onInputData(value) }}
+                onChangeText={(value) => { setSearch(value), onInputData(value)}}
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
@@ -76,7 +100,7 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
               </TouchableOpacity>
             </>
           }
-          {notificationOn &&
+          {notificationOn && !refresh &&
             <View className='w-[50%] absolute right-[0px] top-[30px]'>
               {notificationData.length === 0 ? (
                 <View className='w-full ml-auto border-b bg-[#4CAF50] h-[50px] rounded-xl p-[5px]'>
@@ -84,9 +108,9 @@ const EFHeader = ({ name, inputOn = false, onInputData, userId, navigation, logo
                 </View>
               ) : (
                 notificationData.map((data, index) => (
-                  <View key={index} className='w-full ml-auto border-b bg-[#4CAF50] h-[50px] rounded-xl p-[5px]'>
-                    <Text className='font-semibold'>{data.description}</Text>
-                  </View>
+                  <TouchableOpacity key={index} onPress={() => setRead(data.id, data)} className={`w-full ml-auto border-b ${data.isRead? 'bg-[#DFF1E6]' : 'bg-[#4CAF50]'} h-[50px] rounded-xl p-[5px]`}>
+                    <Text className='font-semibold'>{data.isRead? data.description + " (Read)" : data.description }</Text>
+                  </TouchableOpacity>
                 ))
               )}
             </View>

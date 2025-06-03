@@ -14,6 +14,7 @@ import Summary from './Summary';
 import SensorsList from './SensorsList';
 import ScheduleList from './ScheduleList';
 import Background from '../../components/common/Background';
+import LoadingOverlay from '../../components/loading'
 
 export default function HomeScreen({ navigation }) {
     const [userId, setUserId] = useState(null);
@@ -34,11 +35,12 @@ export default function HomeScreen({ navigation }) {
     }, []);
     return (
         <SafeAreaView className='flex-1'>
+            {!userId && <LoadingOverlay visible={true}/>}
             <View className='w-full h-full'>
                 <Background />
                 <EFHeader name={"EasyFarm"} userId={userId} navigation={navigation} logout={true} />
 
-                <ScrollView className='flex px-4 mt-[90px] z-10'>
+                <ScrollView className='flex px-4 mt-[100px] z-10'>
                     {/* Categories */}
                     <Categories navigation={navigation} />
 
@@ -55,7 +57,7 @@ export default function HomeScreen({ navigation }) {
                             <Text className='text-gray-500 text-[22px] font-semibold mt-5 underline-offset-1'>View All</Text>
                         </TouchableOpacity>
                     </View>
-                    {userId && <SensorsList userId={userId} navigation={navigation} />}
+                    {userId && <SensorsList userId={userId} navigation={navigation}/>}
 
                     {/* Schedule */}
                     <View className="flex flex-row justify-between w-full">

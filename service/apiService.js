@@ -103,3 +103,11 @@ export const postPostApi = (title, content, userId) => {
         userId: Number(userId),
     });
 }
+
+export const readNotiAPI = (notiID) => {
+    return axios.patch(`api/v1/notifications/${notiID}/read`);
+}
+
+export const deleteSensorAPI = (sensorID) => {
+    return axios.delete(`api/v1/sensors/${sensorID}`)
+}

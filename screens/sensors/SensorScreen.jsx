@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SensorCard from './SensorCard';
-import { authAccountApi, sensorsApi } from '../../service/apiService';
-
+import { authAccountApi, deleteSensorAPI, sensorsApi } from '../../service/apiService';
+import LoadingOverlay from '../../components/loading'
 const initialSensors = [
   {
     description: 'Loading...',
@@ -28,9 +28,32 @@ const initialSensors = [
 export default function SensorsScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sensors, setSensors] = useState(initialSensors);
-  const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(true);
   const [selectedSensor, setSelectedSensor] = useState(null);
-
+  const handleDeleteSensor = async (id) => {
+    try {
+        let deleted = sensors
+        let res = await deleteSensorAPI(id);
+        console.log(res)
+        if (res && res?.statusCode == 200) {
+            setReload(false);
+            setSelectedSensor(null);
+            for (i=0;i<sensors.length;i++)
+            {
+              if (sensors[i].id == id) 
+                {
+                  deleted.splice(i,1);
+                  break;
+                }
+            }
+            console.log(deleted)
+            setSensors(deleted)
+            setReload(true);
+        }
+    } catch (error) {
+        throw error;
+    }
+  }
   useEffect(() => {
     const fetchUserID = async () => {
       try {
@@ -53,9 +76,7 @@ export default function SensorsScreen({ navigation }) {
         throw error;
       }
     }
-    setLoading(true);
     fetchUserID();
-    setLoading(false);
   }, []);
 
   const filteredSensors = sensors.filter(sensor =>
@@ -65,6 +86,7 @@ export default function SensorsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {sensors == initialSensors && <LoadingOverlay visible={true}/>}
       {/* Header */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -92,11 +114,11 @@ export default function SensorsScreen({ navigation }) {
       </View>
 
       {/* Sensors List */}
-      <ScrollView style={styles.scrollView}>
+      {reload && <ScrollView style={styles.scrollView}>
         {filteredSensors.map(sensor => (
           <SensorCard key={sensor.id} sensor={sensor} onPress={setSelectedSensor} />
         ))}
-      </ScrollView>
+      </ScrollView>}
 
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSensor')}>
@@ -151,9 +173,15 @@ export default function SensorsScreen({ navigation }) {
                     </View>
                   </View>
                 </View>
-                <TouchableOpacity style={styles.historyButton}>
-                  <Text style={styles.historyText}>History Report</Text>
-                </TouchableOpacity>
+                <View className='flex-row'>
+                  <TouchableOpacity style={styles.historyButton} className='mr-2'>
+                    <Text style={styles.historyText}>History</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.deleteButton} onPress={()=>handleDeleteSensor(selectedSensor.id)}>
+                    <Text style={styles.historyText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+                
               </>
             )}
           </View>
@@ -283,6 +311,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    flex: 1
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    flex: 1
   },
   historyText: {
     color: '#fff',

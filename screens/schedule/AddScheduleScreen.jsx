@@ -19,8 +19,9 @@ import Weekly from './Weekly';
 import Monthly from './Monthly';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { postScheduleApi } from '../../service/apiService';
-
+import LoadingOverlay from '../../components/loading'
 const AddScheduleScreen = ({ navigation }) => {
+  const [loading,setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState('Day');
   const [description, setDescription] = useState('');
@@ -29,6 +30,7 @@ const AddScheduleScreen = ({ navigation }) => {
   const [repeatDays, setrepeatDays] = useState([]);
   const [error, setError] = useState(null);
   const onSubmit = async () => {
+    setLoading(true);
     if (title == '' || description == '') {
       setError('Title and Description must be filled!')
       return;
@@ -72,9 +74,11 @@ const AddScheduleScreen = ({ navigation }) => {
     } catch (error) {
       throw error;
     }
+    setLoading(false)
   }
   return (
     <View className='w-full h-full'>
+      <LoadingOverlay visible={loading}/>
       <Background />
       {/* Header */}
       <View style={styles.headerContainer}>
