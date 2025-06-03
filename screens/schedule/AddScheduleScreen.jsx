@@ -9,8 +9,6 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import ScheduleList from '../home/ScheduleList';
-import EFHeader from '../EFHeader';
 import Background from '../../components/common/Background';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ChooseMode from './ChooseMode';
@@ -33,6 +31,7 @@ const AddScheduleScreen = ({ navigation }) => {
     setLoading(true);
     if (title == '' || description == '') {
       setError('Title and Description must be filled!')
+      setLoading(false);
       return;
     }
     let data = {
@@ -42,6 +41,8 @@ const AddScheduleScreen = ({ navigation }) => {
       "startTime": `${hour}:${minute}`,
       "isActive": true
     }
+    console.log(data);
+    console.log(mode);
     switch (mode) {
       case 'Day':
         data.repeatType = "DAILY"
@@ -64,7 +65,9 @@ const AddScheduleScreen = ({ navigation }) => {
         console.log(data);
         break;
     }
+    console.log('trying')
     try {
+      console.log('abc')
       let scheduleRes = await postScheduleApi(data);
       console.log(scheduleRes)
       if (scheduleRes && scheduleRes?.statusCode == 201) {
