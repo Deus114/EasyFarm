@@ -27,6 +27,24 @@ const AddScheduleScreen = ({ navigation }) => {
   const [minute, setMinute] = useState('00');
   const [repeatDays, setrepeatDays] = useState([]);
   const [error, setError] = useState(null);
+  const [userID, setUserId] = useState(null);
+  useEffect(() => {
+    const fetchUserID = async () => {
+      try {
+              let accountRes = await authAccountApi();
+              console.log("Account", accountRes, accountRes?.statusCode)
+              if (accountRes && accountRes?.statusCode == 200) {
+                let userId = accountRes.data.user.id;
+                console.log("User ID", userId)
+                setUserId(userId);
+              }
+            } catch (error) {
+              throw error;
+            }
+    }
+    fetchUserID();
+  }, [])
+  
   const onSubmit = async () => {
     setLoading(true);
     if (title == '' || description == '') {
@@ -35,7 +53,7 @@ const AddScheduleScreen = ({ navigation }) => {
       return;
     }
     let data = {
-      "userId": parseInt(await AsyncStorage.getItem('userID')),
+      "userId": userID,
       "title": title,
       "description": description,
       "startTime": `${hour}:${minute}`,
